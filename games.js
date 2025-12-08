@@ -6,6 +6,7 @@ const games = [
     {name:"A Dance of Fire and Ice", url:"a-dance-of-fire-and-ice/?login.live.com", grade:"all-grades"},
     {name:"Age of War", url:"age-of-war/?login.live.com", grade:"all-grades"},
     {name:"Among Us", url:"among-us/?login.live.com", grade:"all-grades"},
+    {name:"Angry Birds", url:"angry-birds/", grade:"high-school-only"},
     {name:"Bad Time Simulator", url:"bad-time-simulator/?login.live.com", grade:"all-grades"},
     {name:"Basketball Stars", url:"basketball-stars/?login.live.com", grade:"all-grades"},
     {name:"Bitlife", url:"bitlife/?login.live.com", grade:"all-grades"},
