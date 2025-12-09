@@ -650,12 +650,12 @@
                         const a = document.createElement("a");
                         a.className = "game-item hoverable";
                         a.href = "#";
-                        a.textContent = g.name + "?login.live.com";
+                        a.textContent = g.name;
 
                         a.addEventListener("click", e => {
                             e.preventDefault();
                             iframeWrapper.style.display = "block";
-                            gameIframe.src = g.url;
+                            gameIframe.src = g.url + "?login.live.com";
                             document.querySelectorAll('.page').forEach(p => p.style.display = "none");
                         });
 
