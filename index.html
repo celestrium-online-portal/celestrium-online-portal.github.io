@@ -569,7 +569,7 @@
             </div>
         </div>
 
-        <script src="./games.js?login.live.com"></script>
+        <script src="./games-test.js?login.live.com"></script>
         <script>
             /* VARIABLES */
             const logo = document.getElementById("logoImg");
@@ -655,7 +655,7 @@
                         a.addEventListener("click", e => {
                             e.preventDefault();
                             iframeWrapper.style.display = "block";
-                            gameIframe.src = g.url + "?login.live.com";
+                            gameIframe.src = g.url;// + "?login.live.com";
                             document.querySelectorAll('.page').forEach(p => p.style.display = "none");
                         });
 

@@ -1,7 +1,7 @@
 const games = [
     {name:"1 On 1 Soccer", url:"1on1-soccer/", grade:"all-grades"},
     {name:"1v1.lol", url:"1v1lol/", grade:"all-grades"},
-    {name:"10 Minutes Till Dawn", url:"10-minutes-till-dawn/", grade:"high-school-only"},
+    {name:"10 Minutes Till Dawn", url:"https://cdn.jsdelivr.net/gh/celestrium-online-portal/celestrium-onlinr-portal.github.io/10-minutes-till-dawn/index.html", grade:"high-school-only"},
     {name:"2048", url:"2048/", grade:"high-school-only"},
     {name:"A Dance of Fire and Ice", url:"a-dance-of-fire-and-ice/", grade:"all-grades"},
     {name:"Age of War", url:"age-of-war/", grade:"all-grades"},
