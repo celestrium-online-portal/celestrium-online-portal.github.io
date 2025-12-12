@@ -77,7 +77,7 @@ const games = [
     {name:"There is No Game", url:"there-is-no-game/", grade:"all-grades"},
     {name:"Time Shooter 3 S.W.A.T", url:"time-shooter-3-swat/", grade:"all-grades"},
     {name:"Tiny Fishing", url:"tiny-fishing/", grade:"all-grades"},
-    {name:"Tomb of the Mask (Takes a Long Time to Load)", url:"tomb-of-the-mask/", grade:"all-grades"},
+    {name:"Tomb of the Mask", url:"tomb-of-the-mask/", grade:"all-grades"},
     {name:"Tunnel Rush", url:"tunnel-rush/", grade:"all-grades"},
     {name:"Vex 7", url:"vex-7/", grade:"all-grades"},
     {name:"The Knights Battle Arena", url:"war-the-knights-battle-arena-swords/", grade:"all-grades"},
