@@ -66,6 +66,7 @@ const games = [
     {name:"Snake.io", url:"snakeio/", grade:"all-grades"},
     {name:"Snow Rider", url:"snow-rider/", grade:"all-grades"},
     {name:"Snowball.io", url:"snowballio/", grade:"all-grades"},
+    {name:"Speed Per Click", url:"speed-per-click/", grade:"all-grades"},
     {name:"Steal A Brainrot", url:"steal-a-brainrot/", grade:"all-grades"},
     {name:"Stick Warriors", url:"stick-warriors/", grade:"all-grades"},
     {name:"Stickman Hook", url:"stickman-hook/", grade:"all-grades"},
