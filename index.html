@@ -566,7 +566,6 @@
                 <span>Tab Cloak Title</span>
                 <div class="keybind-row" style="align-items:center;">
                     <input type="text" id="cloakInput" placeholder="Enter New Page Title">
-                    <span id="cloakPreview" style="margin-left:8px;color:var(--subtext);font-size:0.95rem;display:none;"></span>
                     <button class="save-btn" id="saveCloakBtn">Save</button>
                     <button class="reset-btn" id="resetCloakBtn">Reset</button>
                 </div>
@@ -579,8 +578,7 @@
                     <input type="file" id="faviconFileInput" accept="image/*" style="margin-left:8px">
                     <button class="save-btn" id="saveFaviconBtn">Save</button>
                     <button class="reset-btn" id="resetFaviconBtn">Reset</button>
-                    <span id="faviconStatus" style="margin-left:8px;color:var(--subtext);font-size:0.95rem;display:none;"></span>
-                    <img id="faviconPreview" src="" alt="favicon preview" style="height:22px; width:22px; border-radius:4px; margin-left:8px; display:none;">
+                    
                 </div>
             </div>
 
@@ -617,8 +615,7 @@
             const faviconFileInput = document.getElementById("faviconFileInput");
             const saveFaviconBtn = document.getElementById("saveFaviconBtn");
             const resetFaviconBtn = document.getElementById("resetFaviconBtn");
-            const faviconPreview = document.getElementById("faviconPreview");
-            const faviconStatus = document.getElementById("faviconStatus");
+            
             const faviconLinkEl = document.querySelector('link[rel~="icon"]');
             const ORIGINAL_FAV_HREF = faviconLinkEl ? faviconLinkEl.getAttribute('href') : null;
             let pendingFaviconDataUrl = null;
@@ -736,8 +733,8 @@
 
                 // Reset cloaked favicon
                 try { localStorage.removeItem('cloakedFavicon'); } catch (e) {}
-                // restore original favicon but do not show the original preview image
-                if (ORIGINAL_FAV_HREF) setFavicon(ORIGINAL_FAV_HREF, false); else removeFaviconPreview();
+                // restore original favicon
+                if (ORIGINAL_FAV_HREF) setFavicon(ORIGINAL_FAV_HREF);
             });
 
             /* KEYBIND HANDLERS */
@@ -816,11 +813,6 @@
                     cloakInput.addEventListener('input', (e) => {
                         const v = e.target.value.trim();
                         pendingCloakTitle = v || null;
-                        const p = document.getElementById('cloakPreview');
-                        if (p) {
-                            if (v) { p.textContent = 'Preview: ' + v; p.style.display = 'inline-block'; }
-                            else { p.textContent = ''; p.style.display = 'none'; }
-                        }
                     });
                 }
 
@@ -841,7 +833,6 @@
                             alert('Could not save setting: ' + e.message);
                         }
                         pendingCloakTitle = null;
-                        const p = document.getElementById('cloakPreview'); if (p) { p.textContent = ''; p.style.display = 'none'; }
                     });
                 }
 
@@ -850,13 +841,12 @@
                         try { localStorage.removeItem('cloakedTitle'); } catch (e) {}
                         if (cloakInput) cloakInput.value = '';
                         pendingCloakTitle = null;
-                        const p = document.getElementById('cloakPreview'); if (p) { p.textContent = ''; p.style.display = 'none'; }
                         document.title = ORIGINAL_TITLE;
                         alert('Tab cloak reset to default.');
                     });
                 }
                 // FAVICON HANDLERS
-                function setFavicon(href, showPreview = true) {
+                function setFavicon(href) {
                     try {
                         let el = document.querySelector('link[rel~="icon"]');
                         if (!el) {
@@ -865,34 +855,6 @@
                             document.getElementsByTagName('head')[0].appendChild(el);
                         }
                         el.href = href || '';
-                        if (faviconPreview) {
-                            faviconPreview.src = href || '';
-                            faviconPreview.style.display = showPreview && !!href ? 'inline-block' : 'none';
-                        }
-                    } catch (e) {}
-                }
-
-                function removeFaviconPreview() {
-                    if (faviconPreview) { faviconPreview.src = ''; faviconPreview.style.display = 'none'; }
-                }
-
-                // helper: update small status text
-                function updateFaviconStatus(valid, text) {
-                    try {
-                        if (!faviconStatus) return;
-                        if (valid === true) {
-                            faviconStatus.style.color = 'green';
-                            faviconStatus.textContent = text || 'Image looks valid';
-                            faviconStatus.style.display = 'inline-block';
-                        } else if (valid === false) {
-                            faviconStatus.style.color = '#d9534f';
-                            faviconStatus.textContent = text || 'Invalid image URL';
-                            faviconStatus.style.display = 'inline-block';
-                        } else {
-                            faviconStatus.style.color = 'var(--subtext)';
-                            faviconStatus.textContent = text || '';
-                            faviconStatus.style.display = text ? 'inline-block' : 'none';
-                        }
                     } catch (e) {}
                 }
 
@@ -905,15 +867,15 @@
                         img.crossOrigin = 'anonymous';
                         img.onload = function() {
                             if (done) return; done = true;
-                            lastValidatedUrl = url; faviconUrlValid = true; updateFaviconStatus(true, 'Valid image'); resolve(true);
+                            lastValidatedUrl = url; faviconUrlValid = true; resolve(true);
                         };
                         img.onerror = function() {
                             if (done) return; done = true;
-                            lastValidatedUrl = url; faviconUrlValid = false; updateFaviconStatus(false, 'Could not load image'); resolve(false);
+                            lastValidatedUrl = url; faviconUrlValid = false; resolve(false);
                         };
                         img.src = url;
                         // timeout after 5s
-                        setTimeout(() => { if (done) return; done = true; lastValidatedUrl = url; faviconUrlValid = false; updateFaviconStatus(false, 'Image load timed out'); resolve(false); }, 5000);
+                        setTimeout(() => { if (done) return; done = true; lastValidatedUrl = url; faviconUrlValid = false; resolve(false); }, 5000);
                     });
                 }
 
@@ -929,13 +891,13 @@
                 try {
                     const storedFav = localStorage.getItem('cloakedFavicon');
                     if (storedFav) {
-                        setFavicon(storedFav, true);
+                        setFavicon(storedFav);
                         if (faviconInput) faviconInput.value = storedFav.startsWith('data:') ? '' : storedFav;
-                        if (storedFav.startsWith('data:')) { faviconUrlValid = true; lastValidatedUrl = null; updateFaviconStatus(true, 'Using uploaded image'); }
-                        else { faviconUrlValid = true; lastValidatedUrl = storedFav; updateFaviconStatus(true, 'Saved favicon'); }
+                        if (storedFav.startsWith('data:')) { faviconUrlValid = true; lastValidatedUrl = null; }
+                        else { faviconUrlValid = true; lastValidatedUrl = storedFav; }
                     } else {
-                        removeFaviconPreview();
-                        updateFaviconStatus(null, '');
+                        // nothing to preview; do not show any inline status
+                        faviconUrlValid = false; lastValidatedUrl = null;
                     }
                 } catch (e) {}
 
@@ -944,23 +906,19 @@
                         // typing a URL clears any pending uploaded file
                         pendingFaviconDataUrl = null;
                         const v = e.target.value.trim();
-                        if (faviconPreview) {
-                            if (v) { faviconPreview.src = v; faviconPreview.style.display = 'inline-block'; }
-                            else removeFaviconPreview();
-                        }
+                        // no inline preview; just keep the typed value
                         // validate extension first
                         if (v) {
                             if (!urlHasAllowedExtension(v)) {
                                 faviconUrlValid = false; lastValidatedUrl = null;
-                                updateFaviconStatus(false, 'Invalid file type — allowed: png, jpg, ico');
+                                alert('Invalid file type — allowed: png, jpg, ico');
                                 return;
                             }
-                            updateFaviconStatus(null, 'Checking...');
                             validateImageUrl(v).then(valid => {
                                 if (!valid) alert('Favicon URL is not a valid image.');
                             });
                         } else {
-                            faviconUrlValid = false; lastValidatedUrl = null; updateFaviconStatus(null, '');
+                            faviconUrlValid = false; lastValidatedUrl = null;
                         }
                     });
                 }
@@ -983,10 +941,8 @@
                         reader.onload = function(ev) {
                             const dataUrl = ev.target.result;
                             pendingFaviconDataUrl = dataUrl;
-                            // preview uploaded image (do NOT set real favicon yet)
-                            if (faviconPreview) { faviconPreview.src = dataUrl; faviconPreview.style.display = 'inline-block'; }
                             if (faviconInput) faviconInput.value = '';
-                            faviconUrlValid = true; lastValidatedUrl = null; updateFaviconStatus(true, 'Uploaded image ready');
+                            faviconUrlValid = true; lastValidatedUrl = null;
                         };
                         reader.readAsDataURL(file);
                     });
@@ -1001,11 +957,10 @@
                             if (pendingFaviconDataUrl) {
                                 // uploaded image already validated
                                 localStorage.setItem('cloakedFavicon', pendingFaviconDataUrl);
-                                setFavicon(pendingFaviconDataUrl, true);
+                                setFavicon(pendingFaviconDataUrl);
                                 pendingFaviconDataUrl = null;
                                 if (faviconFileInput) faviconFileInput.value = '';
                                 if (faviconInput) faviconInput.value = '';
-                                updateFaviconStatus(true, 'Saved uploaded favicon');
                                 alert('Favicon saved.\n\nThis will change the tab icon shown in your browser and will persist on this device until you reset it.');
                                 return;
                             }
@@ -1014,19 +969,16 @@
                                 // typed URL: if already validated and matches, save immediately
                                 if (lastValidatedUrl === typed && faviconUrlValid) {
                                     localStorage.setItem('cloakedFavicon', typed);
-                                    setFavicon(typed, true);
-                                    updateFaviconStatus(true, 'Favicon saved');
+                                    setFavicon(typed);
                                     alert('Favicon saved: ' + typed + "\n\nThis will change the tab icon shown in your browser and will persist on this device until you reset it.");
                                     return;
                                 }
                                     // otherwise validate now before saving
-                                    if (!urlHasAllowedExtension(typed)) { alert('Invalid file type — allowed: png, jpg, ico'); updateFaviconStatus(false, 'Invalid file type'); return; }
-                                    updateFaviconStatus(null, 'Checking...');
+                                    if (!urlHasAllowedExtension(typed)) { alert('Invalid file type — allowed: png, jpg, ico'); return; }
                                     validateImageUrl(typed).then(valid => {
                                         if (valid) {
                                             localStorage.setItem('cloakedFavicon', typed);
-                                            setFavicon(typed, true);
-                                            updateFaviconStatus(true, 'Favicon saved');
+                                            setFavicon(typed);
                                             alert('Favicon saved: ' + typed + "\n\nThis will change the tab icon shown in your browser and will persist on this device until you reset it.");
                                         } else {
                                             alert('Could not save favicon: the URL did not load as an image.');
@@ -1035,8 +987,7 @@
                             } else {
                                 localStorage.removeItem('cloakedFavicon');
                                 // restore original but don't show original preview
-                                if (ORIGINAL_FAV_HREF) setFavicon(ORIGINAL_FAV_HREF, false); else removeFaviconPreview();
-                                updateFaviconStatus(null, '');
+                                if (ORIGINAL_FAV_HREF) setFavicon(ORIGINAL_FAV_HREF);
                                 alert('Favicon cleared; using default.');
                             }
                         } catch (e) {
@@ -1051,9 +1002,9 @@
                         if (faviconInput) faviconInput.value = '';
                         if (faviconFileInput) faviconFileInput.value = '';
                         pendingFaviconDataUrl = null;
-                        faviconUrlValid = false; lastValidatedUrl = null; updateFaviconStatus(null, '');
-                        // restore original but do not show preview
-                        if (ORIGINAL_FAV_HREF) setFavicon(ORIGINAL_FAV_HREF, false); else removeFaviconPreview();
+                        faviconUrlValid = false; lastValidatedUrl = null;
+                        // restore original
+                        if (ORIGINAL_FAV_HREF) setFavicon(ORIGINAL_FAV_HREF);
                         alert('Favicon reset to default.');
                     });
                 }
