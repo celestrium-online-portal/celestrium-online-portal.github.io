@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Celestrium Online Portal</title>
-        <meta name="app-version" content="2.8.0">
+        <meta name="app-version" content="2.8.3">
         <link rel="icon" type="image/x-icon" href="./favicon.ico?login.live.com">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
@@ -433,7 +433,7 @@
         <!-- HOME PAGE -->
         <div id="home" class="page" style="display:block;">
             <div class="hero">
-                <h1>Welcome to Celestrium Online THISISTEST</h1>
+                <h1>Welcome to Celestrium Online</h1>
                 <p>A Clean & Organized Portal to Play Your Favorite HTML Games</p>
             </div>
 
@@ -589,6 +589,7 @@
             <h2 style="margin-bottom: 10px;">Advanced</h2>
             <div class="setting-row">
                 <button id="resetButton">Reset to Default</button>
+                <p style="font-size: 12px; color: var(--subtext); margin: 8px 0 0 0;">Version <span id="versionDisplay">Unable to Fetch Version</span></p>
             </div>
         </div>
 
@@ -617,6 +618,13 @@
             const faviconInput = document.getElementById("faviconInput");
             const faviconFileInput = document.getElementById("faviconFileInput");
             const saveFaviconBtn = document.getElementById("saveFaviconBtn");
+            const versionDisplay = document.getElementById("versionDisplay");
+            
+            /* UPDATE VERSION DISPLAY */
+            const appVersion = document.querySelector('meta[name="app-version"]')?.content;
+            if (versionDisplay && appVersion) {
+                versionDisplay.textContent = appVersion;
+            }
             const resetFaviconBtn = document.getElementById("resetFaviconBtn");
             const uploadFaviconBtn = document.getElementById("uploadFaviconBtn");
             const faviconFileName = document.getElementById("faviconFileName");
@@ -1018,26 +1026,28 @@
                         
                         if (newVersion && newVersion !== currentVersion) {
                             updateAvailable = true;
-                            console.log('New version available:', newVersion);
+                            console.log('New version detected. Current:', currentVersion, 'New:', newVersion);
                         }
                     } catch (error) {
                         console.log('Version check failed (offline?)', error);
                     }
                 };
                 
+                // Check immediately on load
+                checkForUpdates();
+                
                 // Check for updates every minute
                 setInterval(checkForUpdates, 60 * 1000);
                 
-                // Reload on navbar link click if update available
-                const navLinks = document.querySelectorAll('nav .links a');
-                navLinks.forEach(link => {
-                    link.addEventListener('click', (e) => {
-                        if (updateAvailable) {
-                            e.preventDefault();
-                            location.reload();
-                        }
-                    });
-                });
+                // Wrap the original showPage function to reload if update available
+                const originalShowPage = window.showPage;
+                window.showPage = function(id) {
+                    if (updateAvailable) {
+                        location.reload();
+                    } else {
+                        originalShowPage(id);
+                    }
+                };
             })();
         </script>
 
