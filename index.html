@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Celestrium Online Portal</title>
-        <meta name="app-version" content="2.8.6">
+        <meta name="app-version" content="4.0.0">
         <link rel="icon" type="image/x-icon" href="./favicon.ico?login.live.com">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
@@ -197,11 +197,99 @@
             /* ABOUT CARD */
             .about-card {
                 background: var(--card);
-                padding: 25px;
+                padding: 40px;
                 border-radius: 14px;
-                box-shadow: 0 2px 12px rgba(0,0,0,0.1);
-                transition: background .25s, color .25s, box-shadow .25s;
+                box-shadow: 0 10px 40px rgba(0,0,0,0.06);
+                transition: background .25s, color .25s, box-shadow .25s, transform .15s;
                 width: 100%;
+                overflow: hidden;
+            }
+
+            /* ABOUT LAYOUT */
+            .about-hero {
+                text-align: center;
+                margin: 10px 0 28px 0;
+            }
+
+            .about-hero h1 {
+                margin: 0 0 10px 0;
+                font-size: 2.6rem;
+                letter-spacing: -0.6px;
+                font-weight: 800;
+            }
+
+            .lead {
+                color: var(--subtext);
+                font-size: 1.12rem;
+                margin-top: 8px;
+                line-height: 1.6;
+            }
+
+            .about-grid {
+                display: grid;
+                grid-template-columns: 1fr 340px;
+                gap: 32px;
+                align-items: start;
+            }
+
+            .about-main h2.accent {
+                color: var(--accent);
+                margin: 6px 0 10px 0;
+            }
+
+            .about-main h3 {
+                margin: 18px 0 10px 0;
+            }
+
+            .about-features {
+                list-style: none;
+                padding: 0;
+                margin: 12px 0 0 0;
+                display: grid;
+                gap: 12px;
+            }
+
+            .about-features li {
+                background: linear-gradient(90deg, rgba(74,144,226,0.04), transparent 40%);
+                padding: 12px 14px;
+                border-radius: 10px;
+                color: var(--text);
+                font-weight: 600;
+                line-height: 1.45;
+            }
+
+            .about-side {
+                background: rgba(0,0,0,0.02);
+                padding: 18px;
+                border-radius: 12px;
+                font-size: 0.95rem;
+                color: var(--subtext);
+                line-height: 1.5;
+            }
+
+            .about-side h3 { color: var(--text); margin-top: 0; }
+
+            .about-cta { text-align: center; margin-top: 18px; }
+
+            hr.about-sep {
+                border: 0;
+                height: 1px;
+                background: linear-gradient(90deg, rgba(0,0,0,0.04), rgba(0,0,0,0.02));
+                margin: 26px 0;
+            }
+
+            .faq details { margin: 12px 0; }
+
+            .faq summary { cursor: pointer; font-weight: 700; padding: 8px 6px; }
+
+            .about-card p { margin-bottom: 14px; line-height: 1.7; }
+
+            .about-section { margin-top: 18px; }
+
+            /* Responsive: stack columns on smaller screens */
+            @media (max-width: 860px) {
+                .about-grid { grid-template-columns: 1fr; }
+                .about-side { order: 2; }
             }
 
             /* SETTINGS ROW */
@@ -489,35 +577,101 @@
 
         <!-- ABOUT PAGE -->
         <div id="about" class="page">
-            <h1 style="text-align: center;">About</h1>
+            <div class="about-hero">
+                <h1>About Celestrium Online</h1>
+                <p class="lead">A Fast, Curated Portal for Playing HTML Games — Built to Be Simple, Safe, & Enjoyable.</p>
+            </div>
+
             <div class="about-card">
-                <h2>What Is Celestrium Online?</h2>
-                <p>
-                    Celestrium Online is a simple, fast, and well-organized portal built to make browsing HTML games easier.
-                    Many game sites today are cluttered, confusing, or slow. This project aims to fix that by offering a clean
-                    layout, a reliable search system, and smooth navigation.
-                </p>
-                <br>
-                <h2>Why This Project Exists</h2>
-                <p>
-                    Celestrium Online started as a small passion project. I wanted to create something that felt smooth,
-                    modern, and actually enjoyable to use. A lot of students, myself included, know the feeling of having a bit of downtime and wishing there was a simple place to play games without the clutter and confusion found on many sites.
-                </p>
-                <p>
-                    Over time, this project grew into a full platform with a clean interface, fast loading times, and a focus
-                    on making the experience as seamless as possible. Celestrium Online is built by a student, for students,
-                    with the goal of offering something polished, organized, and genuinely fun to use.
-                </p>
-                <br>
-                <h2>How It Works</h2>
-                <p>
-                    All games are loaded using lightweight HTML, CSS, and JavaScript. The site is designed to work smoothly
-                    on school computers, Chromebooks, and personal devices. Every page loads instantly thanks to optimized
-                    assets and a focused layout.
-                </p>
-                <br>
-                <h2>Credits</h2>
-                <p>Created and maintained by the Celestrium Online team.</p>
+                <div class="about-grid">
+                    <div class="about-main">
+                        <h2 class="accent">Our Mission</h2>
+                        <p>
+                            Celestrium Online exists to provide a clean, minimal, and dependable place to play browser games.
+                            We prioritize speed, usability, and a clutter-free experience so players can jump straight into
+                            gameplay without distractions.
+                        </p>
+
+                        <h3>How it Works</h3>
+                        <p>
+                            Games are organized into a searchable, curated library. Links open in a lightweight iframe to keep
+                            navigation immediate and fast. Settings let you tailor the site for school or personal use.
+                        </p>
+
+                        <h3>Highlights</h3>
+                        <ul class="about-features">
+                            <li>Curated Library — Hand-picked games that run well on most devices</li>
+                            <li>Fast Loading — Optimized assets for quick navigation</li>
+                            <li>Privacy Tools — Tab cloak and escape keybind</li>
+                            <li>Responsive Design — Works on school chromebooks, other laptops, tablets, and phones</li>
+                            <li>Customizable Settings — Dark mode, animations toggle, default game filter</li>
+                        </ul>
+                    </div>
+
+                    <aside class="about-side">
+                        <h3>Credits</h3>
+                        <p>
+                            Created and maintained by the Celestrium Online team. Special thanks to contributors and
+                            volunteers who helped keep the experience lightweight and reliable.
+                        </p>
+
+                        <h3>Privacy &amp; Safety</h3>
+                        <p>
+                            We do not collect personal data by default. Built-in privacy tools (tab cloak, favicon controls)
+                            are session-only and do not persist to storage unless explicitly used via the Settings page.
+                        </p>
+                    </aside>
+                </div>
+
+                <hr class="about-sep">
+
+                <h3>More About the Project</h3>
+                <div class="about-section">
+                    <h4>History</h4>
+                    <p>
+                        Started as a weekend project, Celestrium Online gradually expanded as more games and features
+                        were added. The goal has remained consistent: keep the UI minimal and fast while offering useful
+                        tools to customize the browsing experience.
+                    </p>
+
+                    <h4>Values</h4>
+                    <p>
+                        Simplicity, performance, and respect for user privacy. We favor lightweight solutions and avoid
+                        intrusive ads or tracking in the core portal.
+                    </p>
+
+                    <h4>Contributing</h4>
+                    <p>
+                        If you'd like to suggest games or improvements, open an issue on the repository or contribute a
+                        pull request. We welcome constructive contributions that help improve accessibility and performance.
+                    </p>
+
+                    <h4>Changelog (Major Updates Only)</h4>
+                    <ul class="about-features">
+                        <li>v4.0 — Complete Site Refactor & Settings Overhaul</li>
+                        <li>v3.0 — Major UI Overhaul</li>
+                        <li>v2.0 — Major Addition of Games</li>
+                        <li>v1.0 — Initial Public Release</li>
+                    </ul>
+                </div>
+
+                <hr class="about-sep">
+
+                <h3>FAQ</h3>
+                <div class="faq">
+                    <details>
+                        <summary>Is Celestrium Online free to use?</summary>
+                        <p>Yes, Celestrium Online is freely available and designed for quick access to games.</p>
+                    </details>
+                    <details>
+                        <summary>Will it work on school devices?</summary>
+                        <p>Celestrium Online is optimized for Chromebooks and typical school computers, but network restrictions may block some games.</p>
+                    </details>
+                    <details>
+                        <summary>How do I request a game or report an issue?</summary>
+                        <p>Open an issue on the <a href="https://github.com/celestrium-games/celestrium-online-portal/issues">project's repository</a> with details. Maintainers will review submissions.</p>
+                    </details>
+                </div>
             </div>
         </div>
 
