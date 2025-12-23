@@ -22,4 +22,4 @@ Created and maintained by the Celestrium Online team. Special thanks to contribu
 
 ---
 
-[Easter Egg](https://celestrium-games.github.io/celestrium-online-portal/robots.txt?login.live.com) Since You've Made it This Far
+[Easter Egg](https://celestrium-games.github.io/celestrium-online-portal/shrek-and-donkey.txt?login.live.com) Since You've Made it This Far
