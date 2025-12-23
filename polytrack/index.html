@@ -13,6 +13,7 @@
 <head>
 	<base href="https://cdn.jsdelivr.net/gh/genizy/polytrack@main/">
 	<script>
+		alert("This game may not load the first time because it is so big. If you see a black screen. Close this page and retype the URL into a SEPARATE tab.\n\nThis game may be laggy because the server is far away. If you give it a moment when it starts lagging, it will go back to normal.");
 		window.jkdfgnjkndfg = document.querySelector('base').href;
 		fetch("simulation_worker.bundle.js").then(res => res.text()).then(text => {
 			const blob = new Blob([text.replaceAll("replacethisplease", window.jkdfgnjkndfg)], { type: 'application/javascript' });
