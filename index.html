@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Celestrium Online Portal</title>
-        <meta name="app-version" content="3.5.11">
+        <meta name="app-version" content="3.6.1">
         <link rel="icon" type="image/x-icon" href="./favicon.ico?login.live.com">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
@@ -60,6 +60,18 @@
                 cursor: pointer;
             }
 
+            /* Small utility classes */
+            .logo-img { height: 50px; display: inline-block; }
+            .center { text-align: center; }
+            .mb-10 { margin-bottom: 10px; }
+            .ml-20 { margin-left: 20px; }
+            .ml-8 { margin-left: 8px; }
+            .align-center { align-items: center; }
+            .hidden { display: none; }
+            .upload-btn { margin-left: 8px; padding: 8px 10px; }
+            .muted { font-size: 12px; color: var(--subtext); margin: 8px 0 0 0; }
+            .search-icon { color: var(--subtext); font-size: 1.2rem; }
+
             nav .links a {
                 margin-left: 20px;
                 font-weight: 500;
@@ -81,6 +93,12 @@
                 margin: auto;
                 animation: fade .3s ease;
             }
+
+            /* Show the active page */
+            .page.active { display: block; }
+
+            /* utility spacing */
+            .ml-8 { margin-left: 8px; }
 
             @keyframes fade {
                 from { opacity:0; transform:translateY(6px); }
@@ -500,16 +518,16 @@
         </style>
     </head>
 
-    <body class="dark">
+    <body class="light">
         
         <!-- NAVIGATION -->
-        <nav>
-            <div class="logo" onclick="showPage('home')"><img id="logoImg" src="./logo-dark.png?login.live.com" alt="Celestrium Online" style="height:50px;"></div>
-            <div class="links">
-                <a onclick="showPage('home')"><i class="fas fa-home"></i> Home</a>
-                <a onclick="showPage('all')"><i class="fas fa-gamepad"></i> All Games</a>
-                <a onclick="showPage('about')"><i class="fas fa-info-circle"></i> About</a>
-                <a onclick="showPage('settings')"><i class="fas fa-cog"></i> Settings</a>
+        <nav role="navigation">
+            <div class="logo" id="logoBtn"><img id="logoImg" src="./logo-dark.png?login.live.com" alt="Celestrium Online" class="logo-img"></div>
+            <div class="links" id="navLinks">
+                <a href="#" data-page="home"><i class="fas fa-home"></i> Home</a>
+                <a href="#" data-page="all"><i class="fas fa-gamepad"></i> All Games</a>
+                <a href="#" data-page="about"><i class="fas fa-info-circle"></i> About</a>
+                <a href="#" data-page="settings"><i class="fas fa-cog"></i> Settings</a>
             </div>
         </nav>
 
@@ -519,7 +537,7 @@
         </div>
 
         <!-- HOME PAGE -->
-        <div id="home" class="page" style="display:block;">
+        <div id="home" class="page active">
             <div class="hero">
                 <h1>Welcome to Celestrium Online</h1>
                 <p>A Clean & Organized Portal to Play Your Favorite HTML Games</p>
@@ -540,7 +558,7 @@
                 </div>
                 <div class="card hoverable">
                     <h2>Light & Dark Mode Available</h2>
-                    <p>You Can Switch Between Dark & Light Mode in Settings</p>
+                    <p>You Can Switch Between Light & Dark Mode in Settings</p>
                 </div>
                 <div class="card hoverable">
                     <h2>"Escape" Keybind and Tab Cloak Available</h2>
@@ -555,11 +573,11 @@
 
         <!-- ALL GAMES PAGE -->
         <div id="all" class="page">
-            <h1 style="text-align: center;">All Games</h1>
+            <h1 class="center">All Games</h1>
             <p class="school-note">Use the search bar below to find a game. To filter for elementary & middle school compatible games, adjust the default game filter in Settings.</p>
 
             <div class="search-bar">
-                <i class="fas fa-search" style="color: var(--subtext); font-size: 1.2rem;"></i>
+                <i class="fas fa-search search-icon" aria-hidden="true"></i>
                 <input id="search" type="text" placeholder="Search Games...">
             </div>
 
@@ -623,7 +641,7 @@
                 <hr class="about-sep">
 
                 <h3>More About the Project</h3>
-                <div style="margin-left: 20px;">
+                <div class="ml-20">
                 <div class="about-section">
                     <h4>History</h4>
                     <p>
@@ -646,13 +664,13 @@
 
                     <h4>Changelog (Major Updates Only)</h4>
                     <ul class="about-features">
-                            <li style="margin-left: 20px;">v3.6 — Source Code Refactor</li>
-                            <li style="margin-left: 20px;">v3.5 — Refactored About Page</li>
-                            <li style="margin-left: 20px;">v3.3 — Introduction of Privacy Settings to Settings</li>
-                            <li style="margin-left: 20px;">v3.0 — Major Asthetics Overhaul</li>
+                            <li class="ml-20">v3.6 — Source Code Refactor</li>
+                            <li class="ml-20">v3.5 — Refactored About Page</li>
+                            <li class="ml-20">v3.3 — Introduction of Privacy Settings to Settings</li>
+                            <li class="ml-20">v3.0 — Major Asthetics Overhaul</li>
                         <li>v3 — Major UI Overhaul</li>
-                            <li style="margin-left: 20px;">v2.5 — Introduction of Settings</li>
-                            <li style="margin-left: 20px;">v2.0 — Addition of 50+ Games</li>
+                            <li class="ml-20">v2.5 — Introduction of Settings</li>
+                            <li class="ml-20">v2.0 — Addition of 50+ Games</li>
                         <li>v2 — Major UI Overhaul</li>
                         <li>v1.0 — Initial Public Release</li>
                     </ul>
@@ -665,15 +683,15 @@
                 <div class="faq">
                     <details>
                         <summary>Is Celestrium Online free to use?</summary>
-                        <p style="margin-left: 21px;">Yes, Celestrium Online is freely available and designed for quick access to games.</p>
+                        <p class="ml-20">Yes, Celestrium Online is freely available and designed for quick access to games.</p>
                     </details>
                     <details>
                         <summary>Will it work on school devices?</summary>
-                        <p style="margin-left: 21px;">Celestrium Online is optimized for Chromebooks and typical school computers, but network restrictions may block some games.</p>
+                        <p class="ml-20">Celestrium Online is optimized for Chromebooks and typical school computers, but network restrictions may block some games.</p>
                     </details>
                     <details>
                         <summary>How do I request a game or report an issue?</summary>
-                        <p style="margin-left: 21px;">Open an <a href="https://github.com/celestrium-games/celestrium-online-portal/issues">issue on the project's repository</a> with details. Maintainers will review submissions.</p>
+                        <p class="ml-20">Open an <a href="https://github.com/celestrium-games/celestrium-online-portal/issues">issue on the project's repository</a> with details. Maintainers will review submissions.</p>
                     </details>
                 </div>
             </div>
@@ -681,10 +699,10 @@
 
         <!-- SETTINGS PAGE -->
         <div id="settings" class="page">
-            <h1 style="text-align: center;">Settings</h1>
+            <h1 class="center">Settings</h1>
 
             <!-- SITE AESTHETICS -->
-            <h2 style="margin-bottom: 10px;">Site Aesthetics</h2>
+            <h2 class="mb-10">Site Aesthetics</h2>
             <div class="setting-row">
                 <span>Dark Mode</span>
                 <label class="switch">
@@ -701,7 +719,7 @@
             </div>
 
             <!-- GAME ORGANIZATION -->
-            <h2 style="margin-bottom: 10px;">Game Organization</h2>
+            <h2 class="mb-10">Game Organization</h2>
             <div class="setting-row">
                 <span>Default Game Filter</span>
                 <select id="defaultFilter">
@@ -711,7 +729,7 @@
             </div>
 
             <!-- PRIVACY TOOLS -->
-            <h2 style="margin-bottom: 10px;">Privacy Tools</h2>
+            <h2 class="mb-10">Privacy Tools</h2>
             <div class="setting-row">
                 <span>Escape Keybind</span>
                 <div class="keybind-row">
@@ -723,7 +741,7 @@
 
             <div class="setting-row">
                 <span>Tab Cloak Title</span>
-                <div class="keybind-row" style="align-items:center;">
+                <div class="keybind-row align-center">
                     <input type="text" id="cloakInput" placeholder="Enter New Page Title">
                     <button class="save-btn" id="saveCloakBtn">Save</button>
                     <button class="reset-btn" id="resetCloakBtn">Reset</button>
@@ -732,11 +750,11 @@
 
             <div class="setting-row">
                 <span>Favicon (Tab Icon)</span>
-                <div class="keybind-row" style="align-items:center;">
+                <div class="keybind-row align-center">
                     <input type="text" id="faviconInput" placeholder="Enter Full Favicon URL">
-                    <input type="file" id="faviconFileInput" accept="image/*" style="display:none">
-                    <button class="save-btn" id="uploadFaviconBtn" style="margin-left:8px;padding:8px 10px;">Upload</button>
-                    <span id="faviconFileName" style="margin-left:8px;color:var(--subtext);font-size:0.95rem;"></span>
+                    <input type="file" id="faviconFileInput" accept="image/*" class="hidden">
+                    <button class="save-btn upload-btn" id="uploadFaviconBtn">Upload</button>
+                    <span id="faviconFileName" class="ml-8 muted"></span>
                     <button class="save-btn" id="saveFaviconBtn">Save</button>
                     <button class="reset-btn" id="resetFaviconBtn">Reset</button>
                     
@@ -744,427 +762,281 @@
             </div>
 
             <!-- ADVANCED -->
-            <h2 style="margin-bottom: 10px;">Advanced</h2>
+            <h2 class="mb-10">Advanced</h2>
             <div class="setting-row">
                 <button id="resetButton">Reset to Default</button>
-                <p style="font-size: 12px; color: var(--subtext); margin: 8px 0 0 0;">Version <span id="versionDisplay">Unable to Fetch Version</span></p>
+                <p class="muted">Version <span id="versionDisplay">Unable to Fetch Version</span></p>
             </div>
         </div>
 
         <script src="./games.js?login.live.com"></script>
         <script>
-            /* VARIABLES */
-            const logo = document.getElementById("logoImg");
-            const darkToggle = document.getElementById("darkToggle");
-            const defaultFilter = document.getElementById("defaultFilter");
-            const listEl = document.getElementById("gameList");
-            const searchEl = document.getElementById("search");
-            const noResultsEl = document.getElementById("no-results");
-            const animationsToggle = document.getElementById("animationsToggle");
-            const iframeWrapper = document.getElementById("iframeWrapper");
-            const gameIframe = document.getElementById("gameIframe");
-            const keybindInput = document.getElementById("keybindInput");
-            const saveKeybindBtn = document.getElementById("saveKeybindBtn");
-            const resetKeybindBtn = document.getElementById("resetKeybindBtn");
-            const mostPopularGamesHeader = document.getElementById("mostPopularGamesHeader");
-            const elementaryWorkingGamesHeader = document.getElementById("elementaryWorkingGamesHeader");
+            (function() {
+                'use strict';
 
-            const cloakInput = document.getElementById("cloakInput");
-            const saveCloakBtn = document.getElementById("saveCloakBtn");
-            const resetCloakBtn = document.getElementById("resetCloakBtn");
-            const ORIGINAL_TITLE = document.title;
-            const faviconInput = document.getElementById("faviconInput");
-            const faviconFileInput = document.getElementById("faviconFileInput");
-            const saveFaviconBtn = document.getElementById("saveFaviconBtn");
-            const versionDisplay = document.getElementById("versionDisplay");
-            
-            /* UPDATE VERSION DISPLAY */
-            const appVersion = document.querySelector('meta[name="app-version"]')?.content;
-            if (versionDisplay && appVersion) {
-                versionDisplay.textContent = appVersion;
-            }
-            const resetFaviconBtn = document.getElementById("resetFaviconBtn");
-            const uploadFaviconBtn = document.getElementById("uploadFaviconBtn");
-            const faviconFileName = document.getElementById("faviconFileName");
-            
-            const faviconLinkEl = document.querySelector('link[rel~="icon"]');
-            const ORIGINAL_FAV_HREF = faviconLinkEl ? faviconLinkEl.getAttribute('href') : null;
-            let pendingFaviconDataUrl = null;
-            let faviconUrlValid = false;
-            let lastValidatedUrl = null;
+                // Helpers
+                const $ = sel => document.querySelector(sel);
+                const $$ = sel => Array.from(document.querySelectorAll(sel));
 
-            let escapeKeybind = null;
-            let tempKeybind = null;
-            let settingKeybind = false;
-            let pendingCloakTitle = null;
+                const logo = $('#logoImg');
+                const logoBtn = $('#logoBtn');
+                const navLinks = $('#navLinks');
+                const darkToggle = $('#darkToggle');
+                const defaultFilter = $('#defaultFilter');
+                const listEl = $('#gameList');
+                const searchEl = $('#search');
+                const noResultsEl = $('#no-results');
+                const animationsToggle = $('#animationsToggle');
+                const iframeWrapper = $('#iframeWrapper');
+                const gameIframe = $('#gameIframe');
+                const keybindInput = $('#keybindInput');
+                const saveKeybindBtn = $('#saveKeybindBtn');
+                const resetKeybindBtn = $('#resetKeybindBtn');
+                const mostPopularGamesHeader = $('#mostPopularGamesHeader');
+                const elementaryWorkingGamesHeader = $('#elementaryWorkingGamesHeader');
+                const cloakInput = $('#cloakInput');
+                const saveCloakBtn = $('#saveCloakBtn');
+                const resetCloakBtn = $('#resetCloakBtn');
+                const ORIGINAL_TITLE = document.title;
+                const faviconInput = $('#faviconInput');
+                const faviconFileInput = $('#faviconFileInput');
+                const saveFaviconBtn = $('#saveFaviconBtn');
+                const versionDisplay = $('#versionDisplay');
+                const resetFaviconBtn = $('#resetFaviconBtn');
+                const uploadFaviconBtn = $('#uploadFaviconBtn');
+                const faviconFileName = $('#faviconFileName');
 
-            /* NAVIGATION */
-            function showPage(id) {
-                iframeWrapper.style.display = "none";
-                gameIframe.src = "";
-                document.querySelectorAll('.page').forEach(p => p.style.display = "none");
-                document.getElementById(id).style.display = "block";
-            }
+                // Small utilities
+                const debounce = (fn, wait=120) => {
+                    let t;
+                    return (...args) => { clearTimeout(t); t = setTimeout(() => fn(...args), wait); };
+                };
 
-            /* DARK MODE */
-            darkToggle.checked = true;
-            darkToggle.addEventListener("change", e => {
-                document.body.classList.toggle("dark", e.target.checked);
-                if (darkToggle.checked) {
-                    logo.src = "./logo-dark.png?login.live.com";
-                } else {
-                    logo.src = "./logo-light.png?login.live.com";
-                }
-            });
+                // Update version display
+                const appVersion = document.querySelector('meta[name="app-version"]')?.content;
+                if (versionDisplay && appVersion) versionDisplay.textContent = appVersion;
 
-            /* ANIMATIONS */
-            function updateAnimations() {
-                const enable = animationsToggle.checked;
+                // Favicon original
+                const faviconLinkEl = document.querySelector('link[rel~="icon"]');
+                const ORIGINAL_FAV_HREF = faviconLinkEl ? faviconLinkEl.getAttribute('href') : null;
+                let pendingFaviconDataUrl = null;
+                let faviconUrlValid = false;
+                let lastValidatedUrl = null;
 
-                document.querySelectorAll('#home .card').forEach(el => {
-                    if (enable) el.classList.add('hoverable'); else el.classList.remove('hoverable');
+                // Keybinds
+                let escapeKeybind = null;
+                let tempKeybind = null;
+                let settingKeybind = false;
+                let pendingCloakTitle = null;
+
+                // NAVIGATION: expose showPage globally (other scripts depend on it)
+                window.showPage = function(id) {
+                    // Hide iframe and pages
+                    iframeWrapper.style.display = 'none';
+                    gameIframe.src = '';
+                    $$('.page').forEach(p => p.classList.remove('active'));
+                    const page = document.getElementById(id);
+                    if (page) page.classList.add('active');
+                };
+
+                // Wire navigation clicks (delegation)
+                navLinks.addEventListener('click', e => {
+                    const a = e.target.closest && e.target.closest('a[data-page]');
+                    if (!a) return;
+                    e.preventDefault();
+                    const page = a.dataset.page;
+                    window.showPage(page);
                 });
 
-                document.querySelectorAll('#all .game-item').forEach(el => {
-                    if (enable) el.classList.add('hoverable'); else el.classList.remove('hoverable');
+                logoBtn.addEventListener('click', () => window.showPage('home'));
+
+                // DARK MODE
+                darkToggle.checked = document.body.classList.contains('dark');
+                darkToggle.addEventListener('change', e => {
+                    document.body.classList.toggle('dark', e.target.checked);
+                    logo.src = e.target.checked ? './logo-dark.png?login.live.com' : './logo-light.png?login.live.com';
                 });
-            }
 
-            animationsToggle.addEventListener("change", updateAnimations);
-            updateAnimations();
+                // ANIMATIONS
+                const updateAnimations = () => {
+                    const enable = animationsToggle.checked;
+                    $$('#home .card').forEach(el => el.classList.toggle('hoverable', enable));
+                    $$('#all .game-item').forEach(el => el.classList.toggle('hoverable', enable));
+                };
+                animationsToggle.addEventListener('change', updateAnimations);
+                updateAnimations();
 
-            mostPopularGamesHeader.textContent = Math.floor(games.length/5)*5 + "+ of the Most Popular Games"
-            var elmWorkingGames = 0;
-            games.forEach(game => {
-                if (game.grade === "all-grades") {
-                    elmWorkingGames++;
+                // Popular / grade counts
+                mostPopularGamesHeader.textContent = Math.floor(games.length/5)*5 + '+ of the Most Popular Games';
+                const elmWorkingGames = games.filter(g => g.grade === 'all-grades').length;
+                elementaryWorkingGamesHeader.textContent = `${elmWorkingGames}/${games.length} of Our Games Are Elementary & Middle School Compatible`;
+
+                // RENDER GAMES (uses DocumentFragment for better performance)
+                function createGameItem(g) {
+                    const a = document.createElement('a');
+                    a.className = 'game-item hoverable';
+                    a.href = '#';
+                    a.textContent = g.name;
+                    a.dataset.url = g.url + '?login.live.com';
+                    return a;
                 }
-            });
-            elementaryWorkingGamesHeader.textContent = elmWorkingGames + "/" + games.length + " of Our Games Are Elementary & Middle School Compatible"
 
-            /* RENDER GAMES */
-            function renderGames() {
-                const query = searchEl.value.toLowerCase();
-                const filter = defaultFilter.value;
-                listEl.innerHTML = "";
-                let count = 0;
+                const openGame = (url) => {
+                    iframeWrapper.style.display = 'block';
+                    gameIframe.src = url;
+                    $$('.page').forEach(p => p.classList.remove('active'));
+                };
 
-                games.forEach(g => {
-                    const matchesQuery = g.name.toLowerCase().includes(query);
-                    const matchesFilter = filter === "all" || g.grade === "all-grades";
+                function renderGames() {
+                    const q = (searchEl.value || '').toLowerCase();
+                    const filter = defaultFilter.value;
+                    listEl.innerHTML = '';
+                    const frag = document.createDocumentFragment();
+                    let count = 0;
 
-                    if (matchesQuery && matchesFilter) {
-                        const a = document.createElement("a");
-                        a.className = "game-item hoverable";
-                        a.href = "#";
-                        a.textContent = g.name;
+                    for (const g of games) {
+                        if ((g.name.toLowerCase().includes(q)) && (filter === 'all' || g.grade === 'all-grades')) {
+                            frag.appendChild(createGameItem(g));
+                            count++;
+                        }
+                    }
 
-                        a.addEventListener("click", e => {
-                            e.preventDefault();
-                            iframeWrapper.style.display = "block";
-                            gameIframe.src = g.url + "?login.live.com";
-                            document.querySelectorAll('.page').forEach(p => p.style.display = "none");
-                        });
+                    listEl.appendChild(frag);
+                    noResultsEl.classList.toggle('hidden', count !== 0);
+                    updateAnimations();
+                }
 
-                        listEl.appendChild(a);
-                        count++;
+                // Event delegation for game clicks
+                listEl.addEventListener('click', e => {
+                    const a = e.target.closest && e.target.closest('.game-item');
+                    if (!a) return;
+                    e.preventDefault();
+                    openGame(a.dataset.url);
+                });
+
+                searchEl.addEventListener('input', debounce(renderGames));
+                defaultFilter.addEventListener('change', renderGames);
+                renderGames();
+
+                // RESET
+                $('#resetButton').addEventListener('click', () => {
+                    darkToggle.checked = false; document.body.classList.remove('dark');
+                    animationsToggle.checked = true; updateAnimations();
+                    defaultFilter.value = 'all'; searchEl.value = '';
+                    renderGames();
+                    escapeKeybind = null; keybindInput.value = '';
+                    document.title = ORIGINAL_TITLE;
+                    if (ORIGINAL_FAV_HREF) setFavicon(ORIGINAL_FAV_HREF);
+                });
+
+                // KEYBIND HANDLING
+                keybindInput.addEventListener('focus', () => { settingKeybind = true; tempKeybind = null; keybindInput.value = ''; });
+
+                function formatKey(e) {
+                    const parts = [];
+                    if (e.ctrlKey) parts.push('Ctrl');
+                    if (e.metaKey) parts.push(navigator.platform.includes('Mac') ? 'Cmd' : 'Meta');
+                    if (e.altKey) parts.push('Alt');
+                    if (e.shiftKey) parts.push('Shift');
+                    const main = e.key && e.key.length === 1 ? e.key.toUpperCase() : (e.key || '').toLowerCase();
+                    if (main) parts.push(main.length === 1 ? main : main);
+                    return { display: parts.join(' + '), mainKey: (main && main.length === 1) ? main.toLowerCase() : null, ctrl: e.ctrlKey, meta: e.metaKey, alt: e.altKey, shift: e.shiftKey };
+                }
+
+                keybindInput.addEventListener('keydown', e => {
+                    e.preventDefault();
+                    tempKeybind = formatKey(e);
+                    keybindInput.value = tempKeybind.display;
+                });
+
+                saveKeybindBtn.addEventListener('click', () => {
+                    if (tempKeybind && tempKeybind.mainKey) {
+                        escapeKeybind = tempKeybind;
+                        alert('Keybind saved: ' + escapeKeybind.display + "\n\nYou can use this keybind to escape to Schoology, except when your computer is focused on a game. This will close your tab, so be careful not to do it on accident.");
+                    }
+                    keybindInput.value = escapeKeybind ? escapeKeybind.display : '';
+                    settingKeybind = false;
+                });
+
+                resetKeybindBtn.addEventListener('click', () => { escapeKeybind = null; tempKeybind = null; keybindInput.value = ''; settingKeybind = false; });
+
+                document.addEventListener('keydown', e => {
+                    if (settingKeybind || !escapeKeybind || !escapeKeybind.mainKey) return;
+                    if (e.key.toLowerCase() === escapeKeybind.mainKey && e.ctrlKey === !!escapeKeybind.ctrl && e.metaKey === !!escapeKeybind.meta && e.altKey === !!escapeKeybind.alt && e.shiftKey === !!escapeKeybind.shift) {
+                        window.location.href = 'https://nsd.schoology.com';
                     }
                 });
 
-                noResultsEl.style.display = count === 0 ? "block" : "none";
-                updateAnimations(); // Ensures animations toggle is respected
-            }
-
-            searchEl.addEventListener("input", renderGames);
-            defaultFilter.addEventListener("change", renderGames);
-            renderGames();
-
-            /* RESET BUTTON */
-            document.getElementById("resetButton").addEventListener("click", () => {
-                // Reset dark mode
-                darkToggle.checked = false;
-                document.body.classList.remove("dark");
-
-                // Reset animations
-                animationsToggle.checked = true;
-                updateAnimations();
-
-                // Reset game filter and search
-                defaultFilter.value = "all";
-                searchEl.value = "";
-                renderGames();
-
-                // Reset keybinds
-                escapeKeybind = null;
-                keybindInput.value = "";
-
-                // Reset cloaked title
-                document.title = ORIGINAL_TITLE;
-
-                // Reset cloaked favicon
-                // restore original favicon
-                if (ORIGINAL_FAV_HREF) setFavicon(ORIGINAL_FAV_HREF);
-            });
-
-            /* KEYBIND HANDLERS */
-            keybindInput.addEventListener("focus", () => {
-                settingKeybind = true;
-                tempKeybind = null;
-                keybindInput.value = "";
-            });
-
-            keybindInput.addEventListener("keydown", e => {
-                e.preventDefault();
-                const parts = [];
-
-                if (e.ctrlKey) parts.push("Ctrl");
-                if (e.metaKey) parts.push(navigator.platform.includes("Mac") ? "Cmd" : "Meta");
-                if (e.altKey) parts.push("Alt");
-                if (e.shiftKey) parts.push("Shift");
-
-                const mainKey = e.key.length === 1 ? e.key.toUpperCase() : null;
-                if (mainKey) parts.push(mainKey);
-
-                keybindInput.value = parts.join(" + ");
-                tempKeybind = {
-                    ctrl: e.ctrlKey,
-                    meta: e.metaKey,
-                    alt: e.altKey,
-                    shift: e.shiftKey,
-                    key: mainKey ? e.key.toLowerCase() : null,
-                    display: parts.join(" + ")
-                };
-            });
-
-            saveKeybindBtn.addEventListener("click", () => {
-                if (tempKeybind && tempKeybind.key) {
-                    escapeKeybind = tempKeybind;
-                    alert("Keybind saved: " + escapeKeybind.display + "\n\nYou can use this keybind to escape to Schoology, except when your computer is focused on a game. This will close your tab, so be careful not to do it on accident.");
-                }
-                keybindInput.value = escapeKeybind ? escapeKeybind.display : "";
-                settingKeybind = false;
-            });
-
-            resetKeybindBtn.addEventListener("click", () => {
-                escapeKeybind = null;
-                tempKeybind = null;
-                keybindInput.value = "";
-                settingKeybind = false;
-            });
-
-            /* ESCAPE KEY TRIGGER */
-            document.addEventListener("keydown", e => {
-                if (settingKeybind || !escapeKeybind || !escapeKeybind.key) return;
-
-                if (e.key.toLowerCase() === escapeKeybind.key &&
-                    e.ctrlKey === !!escapeKeybind.ctrl &&
-                    e.metaKey === !!escapeKeybind.meta &&
-                    e.altKey === !!escapeKeybind.alt &&
-                    e.shiftKey === !!escapeKeybind.shift) {
-                    window.location.href = "https://nsd.schoology.com";
-                }
-            });
-
-            /* TAB CLOAK: load, preview, save, reset */
-            (function(){
-                // load stored cloaked title
-                try {
-                    // Do not load any stored cloaked title from localStorage; start fresh each session
-                    if (cloakInput) cloakInput.value = '';
-                } catch (e) {}
-
+                // TAB CLOAK
                 if (cloakInput) {
-                    cloakInput.addEventListener('input', (e) => {
-                        const v = e.target.value.trim();
-                        pendingCloakTitle = v || null;
-                    });
+                    cloakInput.value = '';
+                    cloakInput.addEventListener('input', e => { pendingCloakTitle = e.target.value.trim() || null; });
                 }
 
-                if (saveCloakBtn) {
-                    saveCloakBtn.addEventListener('click', () => {
-                        const v = (pendingCloakTitle !== null) ? pendingCloakTitle : (cloakInput ? cloakInput.value.trim() : '');
-                        try {
-                            if (v) {
-                                // Apply title for this session only (do not persist to localStorage)
-                                document.title = v;
-                                alert('Tab title saved: ' + v + "\n\nThis will change the text shown in your browser tab for this session.");
-                            } else {
-                                document.title = ORIGINAL_TITLE;
-                                alert('Tab title cleared; using default.');
-                            }
-                        } catch (e) {
-                            alert('Could not save setting: ' + e.message);
-                        }
-                        pendingCloakTitle = null;
-                    });
-                }
+                if (saveCloakBtn) saveCloakBtn.addEventListener('click', () => {
+                    const v = pendingCloakTitle !== null ? pendingCloakTitle : (cloakInput ? cloakInput.value.trim() : '');
+                    try {
+                        if (v) { document.title = v; alert('Tab title saved: ' + v + "\n\nThis will change the text shown in your browser tab for this session."); }
+                        else { document.title = ORIGINAL_TITLE; alert('Tab title cleared; using default.'); }
+                    } catch (e) { alert('Could not save setting: ' + e.message); }
+                    pendingCloakTitle = null;
+                });
 
-                if (resetCloakBtn) {
-                    resetCloakBtn.addEventListener('click', () => {
-                        if (cloakInput) cloakInput.value = '';
-                        pendingCloakTitle = null;
-                        document.title = ORIGINAL_TITLE;
-                        alert('Tab cloak reset to default.');
-                    });
-                }
-                // FAVICON HANDLERS
+                if (resetCloakBtn) resetCloakBtn.addEventListener('click', () => { if (cloakInput) cloakInput.value = ''; pendingCloakTitle = null; document.title = ORIGINAL_TITLE; alert('Tab cloak reset to default.'); });
+
+                // FAVICON HELPERS
                 function setFavicon(href) {
                     try {
                         let el = document.querySelector('link[rel~="icon"]');
-                        if (!el) {
-                            el = document.createElement('link');
-                            el.rel = 'icon';
-                            document.getElementsByTagName('head')[0].appendChild(el);
-                        }
+                        if (!el) { el = document.createElement('link'); el.rel = 'icon'; document.head.appendChild(el); }
                         el.href = href || '';
-                    } catch (e) {}
+                    } catch (e) { console.warn('setFavicon failed', e); }
                 }
 
-                // validate an image URL by attempting to load it
                 function validateImageUrl(url) {
                     return new Promise(resolve => {
                         if (!url) return resolve(false);
-                        const img = new Image();
-                        let done = false;
-                        img.crossOrigin = 'anonymous';
-                        img.onload = function() {
-                            if (done) return; done = true;
-                            lastValidatedUrl = url; faviconUrlValid = true; resolve(true);
-                        };
-                        img.onerror = function() {
-                            if (done) return; done = true;
-                            lastValidatedUrl = url; faviconUrlValid = false; resolve(false);
-                        };
-                        img.src = url;
-                        // timeout after 5s
-                        setTimeout(() => { if (done) return; done = true; lastValidatedUrl = url; faviconUrlValid = false; resolve(false); }, 5000);
+                        const img = new Image(); let done = false; img.crossOrigin = 'anonymous';
+                        img.onload = () => { if (done) return; done = true; lastValidatedUrl = url; faviconUrlValid = true; resolve(true); };
+                        img.onerror = () => { if (done) return; done = true; lastValidatedUrl = url; faviconUrlValid = false; resolve(false); };
+                        img.src = url; setTimeout(() => { if (done) return; done = true; lastValidatedUrl = url; faviconUrlValid = false; resolve(false); }, 5000);
                     });
                 }
 
-                function urlHasAllowedExtension(url) {
-                    try {
-                        const u = url.split('?')[0].split('#')[0];
-                        const ext = u.slice(u.lastIndexOf('.') + 1).toLowerCase();
-                        return ['png','jpg','jpeg','ico'].includes(ext);
-                    } catch (e) { return false; }
-                }
+                function urlHasAllowedExtension(url) { try { const u = url.split('?')[0].split('#')[0]; const ext = u.slice(u.lastIndexOf('.') + 1).toLowerCase(); return ['png','jpg','jpeg','ico'].includes(ext); } catch (e) { return false; } }
 
-                // Do not load any stored cloaked favicon; start fresh each session
-                try {
-                    if (faviconInput) faviconInput.value = '';
-                    faviconUrlValid = false; lastValidatedUrl = null;
-                } catch (e) {}
+                if (faviconInput) faviconInput.value = '';
+                faviconUrlValid = false; lastValidatedUrl = null;
 
-                if (faviconInput) {
-                    faviconInput.addEventListener('input', (e) => {
-                        // typing a URL clears any pending uploaded file
-                        pendingFaviconDataUrl = null;
-                        if (faviconFileName) faviconFileName.textContent = '';
-                        // do not validate while typing; defer validation until Save
-                        const v = e.target.value.trim();
-                        if (!v) {
-                            faviconUrlValid = false;
-                            lastValidatedUrl = null;
-                        } else {
-                            // keep the typed value but mark as not-yet-validated
-                            faviconUrlValid = false;
-                            lastValidatedUrl = null;
-                        }
-                    });
-                }
+                if (faviconInput) faviconInput.addEventListener('input', () => { pendingFaviconDataUrl = null; if (faviconFileName) faviconFileName.textContent = ''; faviconUrlValid = false; lastValidatedUrl = null; });
 
                 if (faviconFileInput) {
                     faviconFileInput.addEventListener('change', (e) => {
-                        const file = e.target.files && e.target.files[0];
-                        if (!file) return;
-                        // quick file type and extension check (allow png, jpg/jpeg, ico)
-                        const name = (file.name || '').toLowerCase();
-                        const ext = name.slice(name.lastIndexOf('.') + 1);
-                        const allowedExt = ['png','jpg','jpeg','ico'];
-                        const allowedTypes = ['image/png','image/jpeg','image/x-icon','image/vnd.microsoft.icon','image/ico'];
-                        if (!allowedExt.includes(ext) || !allowedTypes.includes(file.type)) {
-                            alert('Please select a .png, .jpg/.jpeg, or .ico image file.');
-                            faviconFileInput.value = '';
-                            return;
-                        }
-                        const reader = new FileReader();
-                        reader.onload = function(ev) {
-                            const dataUrl = ev.target.result;
-                            pendingFaviconDataUrl = dataUrl;
-                            if (faviconInput) faviconInput.value = '';
-                            if (faviconFileName) faviconFileName.textContent = file.name || '';
-                            faviconUrlValid = true; lastValidatedUrl = null;
-                        };
+                        const file = e.target.files && e.target.files[0]; if (!file) return;
+                        const name = (file.name || '').toLowerCase(); const ext = name.slice(name.lastIndexOf('.') + 1);
+                        const allowedExt = ['png','jpg','jpeg','ico']; const allowedTypes = ['image/png','image/jpeg','image/x-icon','image/vnd.microsoft.icon','image/ico'];
+                        if (!allowedExt.includes(ext) || !allowedTypes.includes(file.type)) { alert('Please select a .png, .jpg/.jpeg, or .ico image file.'); faviconFileInput.value = ''; return; }
+                        const reader = new FileReader(); reader.onload = (ev) => { pendingFaviconDataUrl = ev.target.result; if (faviconInput) faviconInput.value = ''; if (faviconFileName) faviconFileName.textContent = file.name || ''; faviconUrlValid = true; lastValidatedUrl = null; };
                         reader.readAsDataURL(file);
                     });
-                    // custom upload button wiring
-                    if (uploadFaviconBtn) {
-                        uploadFaviconBtn.addEventListener('click', (ev) => {
-                            ev.preventDefault();
-                            if (faviconFileInput) faviconFileInput.click();
-                        });
-                    }
+                    if (uploadFaviconBtn) uploadFaviconBtn.addEventListener('click', ev => { ev.preventDefault(); faviconFileInput.click(); });
                 }
 
-                if (saveFaviconBtn) {
-                    saveFaviconBtn.addEventListener('click', () => {
-                        // prefer uploaded data URL if present
-                        const typed = faviconInput ? faviconInput.value.trim() : '';
-                        const v = pendingFaviconDataUrl || typed;
-                        try {
-                            if (pendingFaviconDataUrl) {
-                                // uploaded image already validated; apply for this session only
-                                setFavicon(pendingFaviconDataUrl);
-                                pendingFaviconDataUrl = null;
-                                if (faviconFileInput) faviconFileInput.value = '';
-                                if (faviconInput) faviconInput.value = '';
-                                if (faviconFileName) faviconFileName.textContent = '';
-                                alert('Favicon saved.\n\nThis will change the tab icon shown in your browser for this session.');
-                                return;
-                            }
+                if (saveFaviconBtn) saveFaviconBtn.addEventListener('click', () => {
+                    const typed = faviconInput ? faviconInput.value.trim() : '';
+                    const v = pendingFaviconDataUrl || typed;
+                    try {
+                        if (pendingFaviconDataUrl) { setFavicon(pendingFaviconDataUrl); pendingFaviconDataUrl = null; if (faviconFileInput) faviconFileInput.value = ''; if (faviconInput) faviconInput.value = ''; if (faviconFileName) faviconFileName.textContent = ''; alert('Favicon saved.\n\nThis will change the tab icon shown in your browser for this session.'); return; }
+                        if (v) {
+                            if (lastValidatedUrl === typed && faviconUrlValid) { setFavicon(typed); alert('Favicon saved: ' + typed + "\n\nThis will change the tab icon shown in your browser for this session."); return; }
+                            if (!urlHasAllowedExtension(typed)) { alert('Invalid file type — allowed: png, jpg, ico'); return; }
+                            validateImageUrl(typed).then(valid => { if (valid) { setFavicon(typed); if (faviconFileName) faviconFileName.textContent = ''; alert('Favicon saved: ' + typed + "\n\nThis will change the tab icon shown in your browser for this session."); } else { alert('Could not save favicon: the URL did not load as an image.'); } });
+                        } else { if (ORIGINAL_FAV_HREF) setFavicon(ORIGINAL_FAV_HREF); alert('Favicon cleared; using default.'); }
+                    } catch (e) { alert('Could not save favicon: ' + e.message); }
+                });
 
-                            if (v) {
-                                // typed URL: if already validated and matches, save immediately
-                                if (lastValidatedUrl === typed && faviconUrlValid) {
-                                    // apply typed URL for this session only
-                                    setFavicon(typed);
-                                    alert('Favicon saved: ' + typed + "\n\nThis will change the tab icon shown in your browser for this session.");
-                                    return;
-                                }
-                                    // otherwise validate now before saving
-                                    if (!urlHasAllowedExtension(typed)) { alert('Invalid file type — allowed: png, jpg, ico'); return; }
-                                    validateImageUrl(typed).then(valid => {
-                                        if (valid) {
-                                            setFavicon(typed);
-                                            if (faviconFileName) faviconFileName.textContent = '';
-                                            alert('Favicon saved: ' + typed + "\n\nThis will change the tab icon shown in your browser for this session.");
-                                        } else {
-                                            alert('Could not save favicon: the URL did not load as an image.');
-                                        }
-                                    });
-                            } else {
-                                // restore original (do not persist any change)
-                                if (ORIGINAL_FAV_HREF) setFavicon(ORIGINAL_FAV_HREF);
-                                alert('Favicon cleared; using default.');
-                            }
-                        } catch (e) {
-                            alert('Could not save favicon: ' + e.message);
-                        }
-                    });
-                }
+                if (resetFaviconBtn) resetFaviconBtn.addEventListener('click', () => { if (faviconInput) faviconInput.value = ''; if (faviconFileInput) faviconFileInput.value = ''; pendingFaviconDataUrl = null; faviconUrlValid = false; lastValidatedUrl = null; if (ORIGINAL_FAV_HREF) setFavicon(ORIGINAL_FAV_HREF); if (faviconFileName) faviconFileName.textContent = ''; alert('Favicon reset to default.'); });
 
-                if (resetFaviconBtn) {
-                    resetFaviconBtn.addEventListener('click', () => {
-                        if (faviconInput) faviconInput.value = '';
-                        if (faviconFileInput) faviconFileInput.value = '';
-                        pendingFaviconDataUrl = null;
-                        faviconUrlValid = false; lastValidatedUrl = null;
-                        // restore original
-                        if (ORIGINAL_FAV_HREF) setFavicon(ORIGINAL_FAV_HREF);
-                        if (faviconFileName) faviconFileName.textContent = '';
-                        alert('Favicon reset to default.');
-                    });
-                }
             })();
         </script>
 
