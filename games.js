@@ -48,6 +48,7 @@ const games = [
     {name:"Plants vs Zombies", url:"plants-vs-zombies/"},
     {name:"PolyTrack 0.2.0", url:"polytrack-old/"},
     {name:"PolyTrack 0.5.0", url:"polytrack/"},
+    {name:"Rainbow Obby", url:"rainbow-obby/"},
     {name:"Retro Bowl", url:"retrobowl/"},
     {name:"Rooftop Snipers", url:"rooftop-snipers/"},
     {name:"Run 3", url:"run3/"},

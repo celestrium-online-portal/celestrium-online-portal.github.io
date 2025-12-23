@@ -764,18 +764,19 @@
                 const saveKeybindBtn = $('#saveKeybindBtn');
                 const resetKeybindBtn = $('#resetKeybindBtn');
                 const editorsPicks = [
-                    {name: '10 Minutes Till Dawn', favicon: './favicon.ico?login.live.com'},
-                    {name: 'Brawl Stars', favicon: './favicon.ico?login.live.com'},
-                    {name: 'Cookie Clicker', favicon: './favicon.ico?login.live.com'},
-                    {name: 'Drive Mad (Fanmade)', favicon: './favicon.ico?login.live.com'},
-                    {name: 'Eaglercraft 1.8', favicon: './favicon.ico?login.live.com'},
-                    {name: 'Polytrack 0.5.0', favicon: './favicon.ico?login.live.com'},
-                    {name: 'Speed Per Click', favicon: './favicon.ico?login.live.com'},
-                    {name: 'Steal A Brainrot', favicon: './favicon.ico?login.live.com'},
-                    {name: 'Stickman Climb', favicon: './favicon.ico?login.live.com'},
-                    {name: 'Stickman Hook', favicon: './favicon.ico?login.live.com'},
-                    {name: 'Time Shooter 3 S.W.A.T', favicon: './favicon.ico?login.live.com'},
-                    {name: 'Tomb of the Mask', favicon: './favicon.ico?login.live.com'}
+                    {name: '10 Minutes Till Dawn', favicon: 'https://play-lh.googleusercontent.com/v5NsTOn-VGoTVFNruLU4JHPBXR50ey30z7nO-dPoFz3hhBYoIpiCMjfWWVYv_qBR_A'},
+                    {name: 'Brawl Stars', favicon: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT02CBs14BfOMs6C4XS4_p1LLEE_UPJmFbYLQ4v_i31WB4vPOE:https://static.vecteezy.com/system/resources/previews/027/127/558/non_2x/brawl-stars-logo-brawl-stars-icon-transparent-free-png.png&s'},
+                    {name: 'Cookie Clicker', favicon: 'https://play-lh.googleusercontent.com/Z1MOuuiD05ZN5LkVmMEvKF0mqAc-FknaQ2j8s4dZiO-LSPQX4EEA3RVJdlQEtxe96ok=w240-h480-rw#login.live.com'},
+                    {name: 'Drive Mad (Fanmade)', favicon: 'https://play-lh.googleusercontent.com/V_egAxch0phxs10H_Z1QpWRrsH4phd8egT_5ZjYlFbXzXvwpUGpmJMn2h6HgbGkSlZSM'},
+                    {name: 'Eaglercraft 1.8', favicon: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMK3utoEP4BVi0olux0O1Dczk1BoLth3iN_26lvN8KcZqYKeg:https://wmimages.mediarte.be/styles/e22cb3eafdd54a57844ed34d1de56912a49c9848/www.mediarte.be/production/user/eaglercraft-favicon11-syfwtg.png%3Fstyle%3DW3sicmVzaXplIjp7ImZpdCI6Imluc2lkZSIsIndpZHRoIjoxMjAwLCJoZWlnaHQiOjYzMCwid2l0aG91dEVubGFyZ2VtZW50Ijp0cnVlfX1d%26sign%3Dceca99fba4be71e9c392f27878666efe364db548509083ae737a841b240fb86f&s'},
+                    {name: 'Monkey Mart', favicon: 'https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=200,height=200,fit=cover,f=auto/ce4a204b6d2cc99d1879da0b2282b0d8/monkey-mart.png#login.live.com'},
+                    {name: 'Polytrack 0.5.0', favicon: 'https://lh3.googleusercontent.com/sitesv/AAzXCkezsL9X109KoJOcotn-vM6u-KKbTFrjPpwktWT-63y5UyOXq-zwmZHJmBpv8897n4HXcGq2x_-Vs8SAOr0krQf4FhrV_AE1o3skOauHAiBx5z0Kn-Vv5YoYDvrDA1EqzMnn8BKGBPeBfckk4hKtM0_Y6z1zr5InUBzjgulqIT-W0PDl0hwd0ZGDGqhwXQfAVF-xJOQH2ZaLNj8VR2xwkAMipIkBaUH_dEhj=w1280'},
+                    {name: 'Speed Per Click', favicon: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR1FZVhhw218u9ShHS-KfDdJ4rlcVOfBN4tqwW9cwhsyckwqmh2:https://www.citypng.com/public/uploads/preview/hd-roblox-black-symbol-sign-icon-logo-png-70175169478745256ylmn6eud.png%3Fv%3D2025090223&s'},
+                    {name: 'Steal A Brainrot', favicon: 'https://lh3.googleusercontent.com/sitesv/AAzXCkexBy0sxD-edZ00HlrVbKrmmiNE1IYbct9MeGg6k-GbxURYRXWJhwSjGHx_Ax0GRMHdCp6uYAHC-Xp1h-qqt-obrrajgEWJ1XvvyGFBCVEbcUPG_Gv2wqDANhW8J2lF_kOAKF7nDhNHy8o_ca3pF_-xqesSY9eZIaW9eVopHSWThvNPvIOJsiw0wtYNKgX5UpcaXUPU9dkxBz6fYIJpYHAzje9wqOrZKz2TRrY=w1280'},
+                    {name: 'Stickman Climb', favicon: 'https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=200,height=200,fit=cover,f=auto/77e18f5c999b56d24ca7ebfa493cac98/stickman-climb.png?login.live.com'},
+                    {name: 'Stickman Hook', favicon: 'https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=200,height=200,fit=cover,f=auto/99e090d154caf30f3625df7e456d5984/stickman-hook.png#login.live.com'},
+                    {name: 'Time Shooter 3 S.W.A.T', favicon: 'https://lh3.googleusercontent.com/sitesv/AAzXCkee4l8MK-QADhfXIIWtTE_oCLDOaqemhYht2itsvxwqwMK0u9ApN8rIGqlDG8_Oylnm00V9HdIeqEtyc9imSsomD5DyDWVRRO21weJefP0iJD-5afNv2Ly2ZJXSROiQmAFRTkuK792vnY26hjJIf_zELekFGqg09Fw7uiQLKWATzyz56kRltTha6P_OUKtyqpqBy20NkgBCmcpdle1Qwkrytjhq5H2f7s29D1k=w1280'},
+                    {name: 'Tomb of the Mask', favicon: 'https://play-lh.googleusercontent.com/ATGr-U4JBK2VjFzKGK9eMMkrDxJaazadOUoz_7Yl0U5NrWSFcFUzEtNurWXYzVWc8uOO=w240-h480-rw'}
                 ];
                 const editorsCarouselTrack = document.getElementById('carouselTrack');
                 const playRandomBtn = document.getElementById('playRandomBtn');
