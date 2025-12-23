@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Celestrium Online Portal</title>
-        <meta name="app-version" content="3.6.2">
+        <meta name="app-version" content="3.7.4">
         <link rel="icon" type="image/x-icon" href="./favicon.ico?login.live.com">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
@@ -82,7 +82,7 @@
 
             .page {
                 display: none;
-                padding: 40px;
+                padding: 56px;
                 max-width: 1100px;
                 margin: auto;
                 animation: fade .3s ease;
@@ -103,7 +103,7 @@
             }
 
             .hero h1 {
-                font-size: 3rem;
+                font-size: 3.4rem;
                 margin-bottom: 10px;
                 font-weight: 800;
             }
@@ -122,7 +122,7 @@
 
             .card {
                 background: var(--card);
-                padding: 25px;
+                padding: 28px;
                 border-radius: 14px;
                 text-align: center;
                 box-shadow: 0 2px 12px rgba(0,0,0,0.07);
@@ -279,8 +279,8 @@
             /* Editor's Picks carousel styles */
             .home-features { margin-top: 28px; display: grid; grid-template-columns: 1fr 320px; gap: 20px; align-items: start; }
             /* Allow the left grid column to shrink instead of growing (prevents pushing the side card off-screen) */
-            .editors-wrapper { min-width: 0; background: var(--card); padding: 18px; border-radius: 12px; box-shadow: 0 6px 20px rgba(0,0,0,0.04); }
-            .editors-wrapper h2 { margin: 0 0 10px 0; font-size: 1.25rem; }
+            .editors-wrapper { min-width: 0; background: var(--card); padding: 22px; border-radius: 12px; box-shadow: 0 6px 20px rgba(0,0,0,0.04); }
+            .editors-wrapper h2 { margin: 0 0 10px 0; font-size: 1.35rem; }
             .editor-carousel { display:flex; align-items:center; gap:10px; min-width: 0; overflow: hidden; }
             .carousel-track { display:flex; gap:12px; overflow-x:auto; scroll-behavior:smooth; -webkit-overflow-scrolling: touch; padding:12px; min-width: 0; }
 
@@ -288,10 +288,10 @@
             .carousel-track { scrollbar-width: none; /* Firefox */ -ms-overflow-style: none; /* IE 10+ */ }
             .carousel-track::-webkit-scrollbar { width: 0; height: 0; display: none; }
 
-            .carousel-item { display:flex; flex-direction:column; align-items:center; justify-content:center; min-width:130px; max-width:170px; padding:14px; border-radius:12px; background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent); border:1px solid rgba(0,0,0,0.06); cursor:pointer; text-align:center; box-shadow: 0 2px 8px rgba(0,0,0,0.04); transition: transform .18s ease, box-shadow .18s ease; }
-            .carousel-item.hoverable:hover { transform: translateY(-6px); box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
-            .carousel-item img { width:56px; height:56px; object-fit:contain; margin-bottom:10px; border-radius:8px; background: rgba(255,255,255,0.02); padding:8px; }
-            .carousel-title { font-weight:700; font-size:0.95rem; color: var(--text); }
+            .carousel-item { display:flex; flex-direction:column; align-items:center; justify-content:center; min-width:170px; max-width:220px; padding:16px; border-radius:12px; background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent); border:1px solid rgba(0,0,0,0.06); cursor:pointer; text-align:center; box-shadow: 0 2px 8px rgba(0,0,0,0.04); transition: transform .18s ease, box-shadow .18s ease; }
+            .carousel-item.hoverable:hover { transform: translateY(-6px); box-shadow: 0 10px 30px rgba(0,0,0,0.08); }
+            .carousel-item img { width:72px; height:72px; object-fit:contain; margin-bottom:12px; border-radius:10px; background: rgba(255,255,255,0.02); padding:10px; }
+            .carousel-title { font-weight:800; font-size:1rem; color: var(--text); }
 
             /* Play Random side card */
             .side-actions .card.play-random-card { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; padding:26px; }
@@ -638,6 +638,7 @@
 
                     <h4>Changelog (Major Updates Only)</h4>
                     <ul class="about-features">
+                            <li class="ml-20">v3.7 — Homepage Rework</li>
                             <li class="ml-20">v3.6 — Source Code Refactor</li>
                             <li class="ml-20">v3.5 — Refactored About Page</li>
                             <li class="ml-20">v3.3 — Introduction of Privacy Settings to Settings</li>
@@ -857,26 +858,50 @@
                         originalNodes.push(btn);
                     });
 
-                    // Measure width of a single set (after layout)
-                    _singleSetWidth = editorsCarouselTrack.scrollWidth;
+                    // Measure and ensure overflow in a rAF (layout must settle first)
+                    requestAnimationFrame(() => {
+                        const first = originalNodes[0];
+                        const last = originalNodes[originalNodes.length - 1];
+                        if (first && last) {
+                            _singleSetWidth = (last.offsetLeft + last.offsetWidth) - first.offsetLeft;
+                        } else {
+                            _singleSetWidth = editorsCarouselTrack.scrollWidth;
+                        }
 
-                    const maxCopies = 10;
-                    let copies = 0;
-                    while (editorsCarouselTrack.scrollWidth <= editorsCarouselTrack.clientWidth && copies < maxCopies) {
-                        originalNodes.forEach(orig => editorsCarouselTrack.appendChild(orig.cloneNode(true)));
-                        copies++;
-                    }
+                        // Ensure we have overflow by cloning sets until overflow or maxCopies reached
+                        const maxCopies = 10;
+                        let copies = 0;
+                        while (editorsCarouselTrack.scrollWidth <= editorsCarouselTrack.clientWidth && copies < maxCopies) {
+                            originalNodes.forEach(orig => editorsCarouselTrack.appendChild(orig.cloneNode(true)));
+                            copies++;
+                        }
 
-                    if (editorsCarouselTrack.scrollWidth <= editorsCarouselTrack.clientWidth) {
-                        document.querySelectorAll('.carousel-item').forEach(it => { it.style.minWidth = '110px'; });
-                        const totalSets = (copies + 1) || 1;
-                        _singleSetWidth = Math.floor(editorsCarouselTrack.scrollWidth / totalSets);
-                    }
+                        // If still no overflow after duplicating, slightly reduce item min-width to help create overflow
+                        if (editorsCarouselTrack.scrollWidth <= editorsCarouselTrack.clientWidth) {
+                            document.querySelectorAll('.carousel-item').forEach(it => { it.style.minWidth = '120px'; });
+                            const totalSets = (copies + 1) || 1;
+                            _singleSetWidth = Math.floor(editorsCarouselTrack.scrollWidth / totalSets);
+                        } else {
+                            // recompute since appending clones may affect layout
+                            const lastOrig = originalNodes[originalNodes.length - 1];
+                            _singleSetWidth = (lastOrig.offsetLeft + lastOrig.offsetWidth) - originalNodes[0].offsetLeft;
+                        }
 
-                    if (editorsCarouselTrack.children.length === originalNodes.length) {
-                        originalNodes.forEach(orig => editorsCarouselTrack.appendChild(orig.cloneNode(true)));
-                    }
+                        // Guarantee at least one duplicate exists (so that wrap can occur)
+                        if (editorsCarouselTrack.children.length === originalNodes.length) {
+                            originalNodes.forEach(orig => editorsCarouselTrack.appendChild(orig.cloneNode(true)));
+                        }
 
+                        // Kick-start with a tiny offset so motion is visible
+                        if (editorsCarouselTrack.scrollLeft === 0) editorsCarouselTrack.scrollLeft = 1;
+
+                        // Disable smooth behavior while auto-scrolling to avoid conflicts
+                        editorsCarouselTrack.style.scrollBehavior = 'auto';
+
+                        startAutoScroll();
+                    });
+
+                    // Use event delegation so cloned nodes work without reattaching listeners
                     if (!editorsCarouselTrack._clickHandlerAdded) {
                         editorsCarouselTrack.addEventListener('click', (e) => {
                             const btn = e.target.closest && e.target.closest('.carousel-item');
@@ -886,8 +911,6 @@
                         });
                         editorsCarouselTrack._clickHandlerAdded = true;
                     }
-
-                    startAutoScroll();
                 }
 
                 if (playRandomBtn) playRandomBtn.addEventListener('click', () => {
@@ -899,7 +922,7 @@
                     else alert('No games available to play.');
                 });
 
-                const AUTO_SCROLL_PX_PER_SEC = 22;
+                const AUTO_SCROLL_PX_PER_SEC = 25;
                 let _autoScrollId = null;
                 let _lastTs = null;
                 let _autoPaused = false;
@@ -912,6 +935,9 @@
                     if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return stopAutoScroll();
                     if (!animationsToggle.checked) return stopAutoScroll();
 
+                    // If there's no overflow, no need to autoscroll
+                    if (editorsCarouselTrack.scrollWidth <= editorsCarouselTrack.clientWidth) { stopAutoScroll(); return; }
+
                     if (_autoPaused || _pointerInteraction) { _lastTs = ts; _autoScrollId = requestAnimationFrame(autoScrollStep); return; }
                     if (_lastTs == null) _lastTs = ts;
                     const dt = ts - _lastTs;
@@ -920,9 +946,11 @@
                     editorsCarouselTrack.scrollLeft += dx;
 
                     // Seamless wrap: if we've scrolled past one full set, subtract that width for a continuous loop
-                    if (_singleSetWidth > 0 && editorsCarouselTrack.scrollLeft >= _singleSetWidth) {
-                        // move back by exactly one set to create a seamless loop
-                        editorsCarouselTrack.scrollLeft -= _singleSetWidth;
+                    if (_singleSetWidth > 0) {
+                        while (editorsCarouselTrack.scrollLeft >= _singleSetWidth) {
+                            editorsCarouselTrack.scrollLeft -= _singleSetWidth;
+                            try { console.debug('Editor carousel: wrapped by singleSetWidth', { singleSetWidth: _singleSetWidth }); } catch (e) {}
+                        }
                     }
 
                     _autoScrollId = requestAnimationFrame(autoScrollStep);
@@ -932,13 +960,19 @@
                     if (_autoScrollId) return;
                     if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
                     if (!animationsToggle.checked) return;
+                    if (editorsCarouselTrack && editorsCarouselTrack.scrollWidth <= editorsCarouselTrack.clientWidth) return; // nothing to scroll
                     _autoPaused = false; _pointerInteraction = false; _lastTs = null;
+                    // ensure we don't have smooth scrolling interfering with manual scrollLeft updates
+                    if (editorsCarouselTrack) editorsCarouselTrack.style.scrollBehavior = 'auto';
+                    if (editorsCarouselTrack && editorsCarouselTrack.scrollLeft === 0) editorsCarouselTrack.scrollLeft = 1;
+                    try { console.info('Editor carousel: starting auto-scroll', { singleSetWidth: _singleSetWidth, scrollWidth: editorsCarouselTrack.scrollWidth, clientWidth: editorsCarouselTrack.clientWidth }); } catch (e) {}
                     _autoScrollId = requestAnimationFrame(autoScrollStep);
                 }
 
                 function stopAutoScroll() {
                     if (_autoScrollId) { cancelAnimationFrame(_autoScrollId); _autoScrollId = null; }
                     _lastTs = null;
+                    if (editorsCarouselTrack) editorsCarouselTrack.style.scrollBehavior = '';
                 }
 
                 if (editorsCarouselTrack) {
