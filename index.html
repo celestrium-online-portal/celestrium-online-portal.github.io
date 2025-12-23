@@ -277,21 +277,34 @@
             }
 
             /* Editor's Picks carousel styles */
-            .home-features { margin-top: 24px; }
+            .home-features { margin-top: 28px; display: grid; grid-template-columns: 1fr 320px; gap: 20px; align-items: start; }
             /* Allow the left grid column to shrink instead of growing (prevents pushing the side card off-screen) */
-            .editors-wrapper { min-width: 0; }
-            .editor-carousel { display:flex; align-items:center; gap:10px; min-width: 0; }
-            .carousel-track { display:flex; gap:12px; overflow-x:auto; scroll-behavior:smooth; -webkit-overflow-scrolling: touch; padding:10px 6px; min-width: 0; }
+            .editors-wrapper { min-width: 0; background: var(--card); padding: 18px; border-radius: 12px; box-shadow: 0 6px 20px rgba(0,0,0,0.04); }
+            .editors-wrapper h2 { margin: 0 0 10px 0; font-size: 1.25rem; }
+            .editor-carousel { display:flex; align-items:center; gap:10px; min-width: 0; overflow: hidden; }
+            .carousel-track { display:flex; gap:12px; overflow-x:auto; scroll-behavior:smooth; -webkit-overflow-scrolling: touch; padding:12px; min-width: 0; }
 
             /* Hide scrollbars but keep scrolling functional */
-            .carousel-track {
-                scrollbar-width: none; /* Firefox */
-                -ms-overflow-style: none; /* IE 10+ */
-            }
+            .carousel-track { scrollbar-width: none; /* Firefox */ -ms-overflow-style: none; /* IE 10+ */ }
             .carousel-track::-webkit-scrollbar { width: 0; height: 0; display: none; }
-            .carousel-item { display:flex; flex-direction:column; align-items:center; justify-content:center; min-width:140px; max-width:180px; padding:12px; border-radius:10px; background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent); border:1px solid rgba(0,0,0,0.04); cursor:pointer; text-align:center; }
-            .carousel-item img { width:56px; height:56px; object-fit:contain; margin-bottom:8px; }
-            .carousel-title { font-weight:700; font-size:0.95rem; }
+
+            .carousel-item { display:flex; flex-direction:column; align-items:center; justify-content:center; min-width:130px; max-width:170px; padding:14px; border-radius:12px; background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent); border:1px solid rgba(0,0,0,0.06); cursor:pointer; text-align:center; box-shadow: 0 2px 8px rgba(0,0,0,0.04); transition: transform .18s ease, box-shadow .18s ease; }
+            .carousel-item.hoverable:hover { transform: translateY(-6px); box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
+            .carousel-item img { width:56px; height:56px; object-fit:contain; margin-bottom:10px; border-radius:8px; background: rgba(255,255,255,0.02); padding:8px; }
+            .carousel-title { font-weight:700; font-size:0.95rem; color: var(--text); }
+
+            /* Play Random side card */
+            .side-actions .card.play-random-card { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; padding:26px; }
+            .play-random-btn { background: linear-gradient(90deg, var(--accent), #3a7bd5); color: white; border: none; padding: 12px 18px; border-radius: 10px; font-weight: 700; font-size: 1rem; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 6px 18px rgba(74,144,226,0.18); transition: transform .12s, box-shadow .12s, opacity .12s; }
+            .play-random-btn:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(74,144,226,0.22); }
+            .play-random-btn i { font-size: 1.05rem; }
+
+            /* Responsive tweaks */
+            @media (max-width: 860px) {
+                .home-features { display: block; }
+                .editors-wrapper { margin-bottom: 12px; padding: 14px; }
+                .side-actions .card.play-random-card { width: 100%; }
+            }
 
 
             @media (max-width: 860px) {
@@ -526,11 +539,11 @@
                 </div>
 
                 <div class="side-actions">
-                    <div class="card hoverable">
+                    <div class="card hoverable play-random-card">
                         <h3>Play Random</h3>
-                        <p class="muted">Instantly Start a Random Editor's Pick</p>
+                        <p class="muted">Instantly start a random Editor's Pick — try something new!</p>
                         <div style="margin-top:14px;">
-                            <button id="playRandomBtn" class="save-btn">Play Random</button>
+                            <button id="playRandomBtn" class="play-random-btn" aria-label="Play a random game"><i class="fas fa-dice"></i> Play Random</button>
                         </div>
                     </div>
                 </div>
@@ -823,6 +836,7 @@
                 function renderEditorsPicks() {
                     if (!editorsCarouselTrack) return;
                     editorsCarouselTrack.innerHTML = '';
+                    _singleSetWidth = 0;
                     if (!editorsPicks || editorsPicks.length === 0) {
                         const fallback = document.createElement('div');
                         fallback.className = 'carousel-empty';
@@ -831,42 +845,47 @@
                         return;
                     }
 
+                    const originalNodes = [];
                     editorsPicks.forEach((item) => {
                         const g = findGameByName(item.name);
                         const btn = document.createElement('button');
                         btn.className = 'carousel-item hoverable';
                         btn.setAttribute('role','listitem');
                         btn.dataset.url = g ? (g.url + '?login.live.com') : '';
-                        btn.innerHTML = `\n                            <img src="${item.favicon || ''}" alt="${item.name} icon" onerror="this.style.visibility='hidden'">\n                            <div class=\"carousel-title\">${item.name}</div>`;
-                        btn.addEventListener('click', () => {
-                            if (btn.dataset.url) openGame(btn.dataset.url);
-                            else alert('Game not found in list: ' + item.name + '\nMake sure the name matches a game from `games.js`.');
-                        });
+                        btn.innerHTML = `\n                            <img src="${item.favicon || ''}" alt="${item.name} icon" onerror="this.style.visibility='hidden'">\n                            <div class="carousel-title">${item.name}</div>`;
                         editorsCarouselTrack.appendChild(btn);
+                        originalNodes.push(btn);
                     });
 
-                    // If the rendered items do not overflow, duplicate the set until it does (max 3 copies)
-                    (function ensureCarouselOverflow() {
-                        if (!editorsCarouselTrack) return;
-                        const maxCopies = 3;
-                        let copies = 0;
-                        while (editorsCarouselTrack.scrollWidth <= editorsCarouselTrack.clientWidth && copies < maxCopies) {
-                            editorsPicks.forEach((item) => {
-                                const g = findGameByName(item.name);
-                                const btn = document.createElement('button');
-                                btn.className = 'carousel-item hoverable';
-                                btn.setAttribute('role','listitem');
-                                btn.dataset.url = g ? (g.url + '?login.live.com') : '';
-                                btn.innerHTML = `\n                                    <img src="${item.favicon || ''}" alt="${item.name} icon" onerror="this.style.visibility='hidden'">\n                                    <div class=\\"carousel-title\\">${item.name}</div>`;
-                                btn.addEventListener('click', () => {
-                                    if (btn.dataset.url) openGame(btn.dataset.url);
-                                    else alert(error); console.log('Game not found in list: ' + item.name + '\nMake sure the name matches a game from `games.js`.');
-                                });
-                                editorsCarouselTrack.appendChild(btn);
-                            });
-                            copies++;
-                        }
-                    })();
+                    // Measure width of a single set (after layout)
+                    _singleSetWidth = editorsCarouselTrack.scrollWidth;
+
+                    const maxCopies = 10;
+                    let copies = 0;
+                    while (editorsCarouselTrack.scrollWidth <= editorsCarouselTrack.clientWidth && copies < maxCopies) {
+                        originalNodes.forEach(orig => editorsCarouselTrack.appendChild(orig.cloneNode(true)));
+                        copies++;
+                    }
+
+                    if (editorsCarouselTrack.scrollWidth <= editorsCarouselTrack.clientWidth) {
+                        document.querySelectorAll('.carousel-item').forEach(it => { it.style.minWidth = '110px'; });
+                        const totalSets = (copies + 1) || 1;
+                        _singleSetWidth = Math.floor(editorsCarouselTrack.scrollWidth / totalSets);
+                    }
+
+                    if (editorsCarouselTrack.children.length === originalNodes.length) {
+                        originalNodes.forEach(orig => editorsCarouselTrack.appendChild(orig.cloneNode(true)));
+                    }
+
+                    if (!editorsCarouselTrack._clickHandlerAdded) {
+                        editorsCarouselTrack.addEventListener('click', (e) => {
+                            const btn = e.target.closest && e.target.closest('.carousel-item');
+                            if (!btn) return;
+                            if (btn.dataset.url) openGame(btn.dataset.url);
+                            else alert('Game not found in list: ' + (btn.querySelector('.carousel-title')?.textContent || '[unknown]') + '\nMake sure the name matches a game from `games.js`.');
+                        });
+                        editorsCarouselTrack._clickHandlerAdded = true;
+                    }
 
                     startAutoScroll();
                 }
@@ -886,6 +905,7 @@
                 let _autoPaused = false;
                 let _pointerInteraction = false;
                 let _resumeTimeout = null;
+                let _singleSetWidth = 0;
 
                 function autoScrollStep(ts) {
                     if (!editorsCarouselTrack) return;
@@ -899,9 +919,10 @@
                     const dx = (AUTO_SCROLL_PX_PER_SEC * dt) / 1000;
                     editorsCarouselTrack.scrollLeft += dx;
 
-                    const maxScroll = editorsCarouselTrack.scrollWidth - editorsCarouselTrack.clientWidth;
-                    if (maxScroll > 0 && editorsCarouselTrack.scrollLeft >= maxScroll - 1) {
-                        editorsCarouselTrack.scrollTo({ left: 0, behavior: 'smooth' });
+                    // Seamless wrap: if we've scrolled past one full set, subtract that width for a continuous loop
+                    if (_singleSetWidth > 0 && editorsCarouselTrack.scrollLeft >= _singleSetWidth) {
+                        // move back by exactly one set to create a seamless loop
+                        editorsCarouselTrack.scrollLeft -= _singleSetWidth;
                     }
 
                     _autoScrollId = requestAnimationFrame(autoScrollStep);
