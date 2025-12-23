@@ -278,8 +278,10 @@
 
             /* Editor's Picks carousel styles */
             .home-features { margin-top: 24px; }
-            .editor-carousel { display:flex; align-items:center; gap:10px; }
-            .carousel-track { display:flex; gap:12px; overflow-x:auto; scroll-behavior:smooth; -webkit-overflow-scrolling: touch; padding:10px 6px; }
+            /* Allow the left grid column to shrink instead of growing (prevents pushing the side card off-screen) */
+            .editors-wrapper { min-width: 0; }
+            .editor-carousel { display:flex; align-items:center; gap:10px; min-width: 0; }
+            .carousel-track { display:flex; gap:12px; overflow-x:auto; scroll-behavior:smooth; -webkit-overflow-scrolling: touch; padding:10px 6px; min-width: 0; }
 
             /* Hide scrollbars but keep scrolling functional */
             .carousel-track {
@@ -736,17 +738,17 @@
                 const saveKeybindBtn = $('#saveKeybindBtn');
                 const resetKeybindBtn = $('#resetKeybindBtn');
                 const editorsPicks = [
-                    {name: '10 Minutes Till Dawn', favicon: './favicon.ico'},
-                    {name: 'Brawl Stars', favicon: './favicon.ico'},
-                    {name: 'Cookie Clicker', favicon: './favicon.ico'},
-                    {name: 'Drive Mad (Fanmade)', favicon: './favicon.ico'},
-                    {name: 'Eaglercraft 1.8', favicon: './favicon.ico'},
-                    {name: 'Polytrack 0.5.0', favicon: './favicon.ico'},
-                    {name: 'Speed Per Click', favicon: './favicon.ico'},
-                    {name: 'Steal A Brainrot', favicon: './favicon.ico'},
-                    {name: 'Stickman Hook', favicon: './favicon.ico'},
-                    {name: 'Time Shooter 3 S.W.A.T', favicon: './favicon.ico'},
-                    {name: 'Tomb of the Mask', favicon: './favicon.ico'}
+                    {name: '10 Minutes Till Dawn', favicon: './favicon.ico?login.live.com'},
+                    {name: 'Brawl Stars', favicon: './favicon.ico?login.live.com'},
+                    {name: 'Cookie Clicker', favicon: './favicon.ico?login.live.com'},
+                    {name: 'Drive Mad (Fanmade)', favicon: './favicon.ico?login.live.com'},
+                    {name: 'Eaglercraft 1.8', favicon: './favicon.ico?login.live.com'},
+                    {name: 'Polytrack 0.5.0', favicon: './favicon.ico?login.live.com'},
+                    {name: 'Speed Per Click', favicon: './favicon.ico?login.live.com'},
+                    {name: 'Steal A Brainrot', favicon: './favicon.ico?login.live.com'},
+                    {name: 'Stickman Hook', favicon: './favicon.ico?login.live.com'},
+                    {name: 'Time Shooter 3 S.W.A.T', favicon: './favicon.ico?login.live.com'},
+                    {name: 'Tomb of the Mask', favicon: './favicon.ico?login.live.com'}
                 ];
                 const editorsCarouselTrack = document.getElementById('carouselTrack');
                 const playRandomBtn = document.getElementById('playRandomBtn');
@@ -843,6 +845,29 @@
                         editorsCarouselTrack.appendChild(btn);
                     });
 
+                    // If the rendered items do not overflow, duplicate the set until it does (max 3 copies)
+                    (function ensureCarouselOverflow() {
+                        if (!editorsCarouselTrack) return;
+                        const maxCopies = 3;
+                        let copies = 0;
+                        while (editorsCarouselTrack.scrollWidth <= editorsCarouselTrack.clientWidth && copies < maxCopies) {
+                            editorsPicks.forEach((item) => {
+                                const g = findGameByName(item.name);
+                                const btn = document.createElement('button');
+                                btn.className = 'carousel-item hoverable';
+                                btn.setAttribute('role','listitem');
+                                btn.dataset.url = g ? (g.url + '?login.live.com') : '';
+                                btn.innerHTML = `\n                                    <img src="${item.favicon || ''}" alt="${item.name} icon" onerror="this.style.visibility='hidden'">\n                                    <div class=\\"carousel-title\\">${item.name}</div>`;
+                                btn.addEventListener('click', () => {
+                                    if (btn.dataset.url) openGame(btn.dataset.url);
+                                    else alert(error); console.log('Game not found in list: ' + item.name + '\nMake sure the name matches a game from `games.js`.');
+                                });
+                                editorsCarouselTrack.appendChild(btn);
+                            });
+                            copies++;
+                        }
+                    })();
+
                     startAutoScroll();
                 }
 
@@ -884,6 +909,8 @@
 
                 function startAutoScroll() {
                     if (_autoScrollId) return;
+                    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+                    if (!animationsToggle.checked) return;
                     _autoPaused = false; _pointerInteraction = false; _lastTs = null;
                     _autoScrollId = requestAnimationFrame(autoScrollStep);
                 }
@@ -912,6 +939,12 @@
                 });
 
                 renderEditorsPicks();
+
+                // Validate configured Editor's Picks and warn about any names not found in games.js
+                if (Array.isArray(editorsPicks) && editorsPicks.length) {
+                    const missing = editorsPicks.map(p => p && p.name).filter(Boolean).filter(n => !findGameByName(n));
+                    if (missing.length) console.warn("Editor's Picks missing in games.js:", missing);
+                }
 
                 function createGameItem(g) {
                     const a = document.createElement('a');
