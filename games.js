@@ -44,6 +44,7 @@ const games = [
     {name:"Learn to Fly 3", url:"learn-to-fly-3/"},
     {name:"Melon Playground", url:"melon-playground/"},
     {name:"Monkey Mart", url:"monkey-mart/"},
+    {name:"Moto X 3M I", url:"motox3m-1/"},
     {name:"Moto X 3M II", url:"motox3m-2/"},
     {name:"Moto X 3M III", url:"motox3m-3/"},
     {name:"Moto X 3M - Pool Party", url:"motox3m-poolparty/"},
